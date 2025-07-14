@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Project Webpage</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #eef1f5;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      position: relative;
+      color: #2c3e50;
+      margin-bottom: 40px;
+    }
+
+    /* Style for the Songs button */
+    #songsButton {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      padding: 10px 20px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    #songsButton:hover {
+      background-color: #2980b9;
+    }
+
+    /* General Overlay Styles */
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      backdrop-filter: blur(5px);
+    }
+
+    .overlay-content {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      max-width: 700px;
+      width: 90%;
+      max-height: 85%;
+      overflow-y: auto;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      position: relative;
+      transform: translateY(0);
+      transition: transform 0.3s ease-out;
+    }
+
+    .overlay.show .overlay-content {
+      transform: translateY(0);
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 25px;
+      font-size: 28px;
+      cursor: pointer;
+      color: #555;
+      transition: color 0.2s ease;
+    }
+
+    .close-btn:hover {
+      color: #e74c3c;
+    }
+
+    /* Songs Overlay Specific Styles */
+    #songsOverlay .overlay-content {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    #songsOverlay h2 {
+      text-align: center;
+      color: #34495e;
+      margin-bottom: 15px;
+      font-size: 1.8em;
+    }
+
+    #songsSearch {
+      width: calc(100% - 20px);
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 1em;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .song-list-container {
+      flex-grow: 1;
+      overflow-y: auto;
+      max-height: 300px; /* Limit height for initial list */
+      padding-right: 10px; /* For scrollbar */
+    }
+
+    .song-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid #eee;
+      transition: background-color 0.2s ease;
+    }
+
+    .song-item:last-child {
+      border-bottom: none;
+    }
+
+    .song-item:hover {
+      background-color: #f8f8f8;
+    }
+
+    .song-item span {
+      flex-grow: 1;
+      font-size: 1.1em;
+      color: #444;
+    }
+
+    .song-item button {
+      padding: 8px 15px;
+      background-color: #2ecc71;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.95em;
+      transition: background-color 0.3s ease, transform 0.1s ease;
+    }
+
+    .song-item button:hover {
+      background-color: #27ae60;
+      transform: translateY(-1px);
+    }
+
+    /* Styles for the persistent audio player */
+    #persistentAudioPlayer {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+      padding: 15px 20px;
+      margin: 20px auto 30px auto;
+      max-width: 500px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid #e0e0e0;
+    }
+
+    #persistentAudioPlayer #nowPlayingText {
+      font-weight: bold;
+      color: #555;
+      margin-bottom: 0;
+    }
+
+    #persistentAudioPlayer #audioPlayer {
+      width: 100%;
+      max-width: 450px;
+      margin: 0;
+      display: block;
+    }
+
+    #loopToggleButton {
+      padding: 8px 15px;
+      background-color: #556270;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.95em;
+      transition: background-color 0.3s ease;
+      margin-top: 5px;
+    }
+
+    #loopToggleButton:hover {
+      background-color: #434c55;
+    }
+
+    .vibe-section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 20px;
+      gap: 15px;
+      padding-top: 15px;
+      border-top: 1px dashed #ddd;
+    }
+
+    .vibe-section p {
+      margin: 0;
+      font-size: 1.1em;
+      color: #666;
+    }
+
+    .vibe-section button {
+      padding: 10px 20px;
+      background-color: #f39c12;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background-color 0.3s ease, transform 0.1s ease;
+    }
+
+    .vibe-section button:hover {
+      background-color: #e67e22;
+      transform: translateY(-1px);
+    }
+
+    .controls {
+      display: none;
+      flex-direction: column;
+      gap: 15px;
+      max-width: 550px;
+      margin: 0 auto 30px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .controls input[type="file"],
+    .controls textarea,
+    .controls button {
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 1em;
+    }
+
+    .controls button {
+      background-color: #28a745;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .controls button:hover {
+      background-color: #218838;
+    }
+
+    /* Container for the new media grid */
+    .media-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+      padding: 10px;
+    }
+
+    /* Container for responsive media */
+    .media-item-wrapper {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+        padding-bottom: 15px; /* Space for the button */
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between; /* Pushes button to bottom */
+    }
+
+    .media-container {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      padding-top: 56.25%; /* 16:9 Aspect Ratio */
+      border-radius: 12px 12px 0 0; /* Rounded top corners, sharp bottom for button */
+    }
+    
+    .media-container iframe,
+    .media-container img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 12px 12px 0 0;
+    }
+    
+    /* Specific style for the picture spot to make it stand out */
+    .picture-spot .media-container {
+        border: 2px dashed #b0c4de;
+        background-color: #f8f9fa;
+    }
+
+    .picture-spot img {
+        object-fit: cover; /* Ensures the image covers the area nicely */
+    }
+
+    /* Information button style (renamed from pdf-button) */
+    .info-button {
+      display: block;
+      width: calc(100% - 40px); /* Account for padding */
+      margin: 15px auto 0; /* Top margin, auto horizontal for centering */
+      padding: 10px 15px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1em;
+      text-align: center;
+      transition: background-color 0.3s ease, transform 0.1s ease;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .info-button:hover {
+      background-color: #0056b3;
+      transform: translateY(-2px);
+    }
+
+    /* Text Overlay Styles (New) */
+    #textOverlay {
+      background-color: rgba(0, 0, 0, 0.85); /* Darker background */
+      z-index: 1010; /* Higher than song overlay */
+    }
+
+    #textOverlay .overlay-content {
+      max-width: 90%;
+      width: 800px; /* Wider for text content */
+      height: 90%;
+      max-height: 90%;
+      padding: 20px 30px; /* Add some padding */
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box; /* Include padding in width/height */
+    }
+
+    #textOverlay h2 {
+      text-align: center;
+      color: #34495e;
+      margin-bottom: 20px;
+      font-size: 1.8em;
+    }
+
+    #textContent {
+      flex-grow: 1; /* Allow content to fill available space */
+      overflow-y: auto; /* Make content scrollable */
+      white-space: pre-wrap; /* Preserve whitespace and break lines */
+      word-wrap: break-word; /* Break long words */
+      line-height: 1.6;
+      color: #333;
+      padding-right: 10px; /* Space for scrollbar */
+    }
+
+
+    #adminLogin {
+      text-align: center;
+      margin-bottom: 20px;
+      padding: 20px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    #adminLogin input[type="password"] {
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 1em;
+      margin-right: 10px;
+      width: calc(100% - 100px);
+    }
+
+    #adminLogin button {
+      padding: 10px 20px;
+      background-color: #17a2b8;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background-color 0.3s ease;
+    }
+
+    #adminLogin button:hover {
+      background-color: #138496;
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 1.8em;
+      }
+      #songsButton {
+        position: static;
+        margin-top: 15px;
+        width: 100%;
+      }
+      .overlay-content {
+        max-width: 95%;
+        padding: 20px;
+      }
+      .media-grid {
+        grid-template-columns: 1fr;
+      }
+      .controls, #adminLogin {
+        margin-left: 10px;
+        margin-right: 10px;
+      }
+      #persistentAudioPlayer {
+        margin-left: 10px;
+        margin-right: 10px;
+        padding: 10px;
+      }
+      #textOverlay .overlay-content {
+        width: 95%; /* Adjust width for small screens */
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>
+    Project Webpage
+    <button id="songsButton">Songs</button>
+  </h1>
+
+  <div id="persistentAudioPlayer">
+    <p id="nowPlayingText">No song playing.</p>
+    <audio id="audioPlayer" controls></audio>
+    <button id="loopToggleButton">Loop: OFF</button>
+  </div>
+  
+  <div id="adminLogin">
+    <input type="password" id="adminPassword" placeholder="Enter admin password..." />
+    <button onclick="checkPassword()">Login</button>
+  </div>
+
+  <div class="controls" id="editorControls">
+    <p>Admin controls are enabled.</p>
+    <p>Content management for the sections below can be handled here.</p>
+    <hr style="border-color: #eee; margin: 20px 0;">
+    <h3>Edit Information Content</h3>
+    <p>Use the dropdown to select which info button's text you want to edit. Then paste your content into the text area below.</p>
+    <select id="infoContentSelector">
+        <option value="0">Video 1 Information</option>
+        <option value="1">Video 2 Information</option>
+        <option value="2">Picture 3 Information</option>
+        <option value="3">Video 4 Information</option>
+    </select>
+    <textarea id="adminInfoText" rows="10" placeholder="Paste your 1000 pages of text here..."></textarea>
+    <button onclick="saveAdminInfoText()">Save Content</button>
+    <p style="font-size: 0.85em; color: #777;">*Content changes made here will persist until the page is reloaded or if you clear browser local storage.</p>
+  </div>
+
+  <div class="media-grid">
+    <div class="media-item-wrapper">
+      <div class="media-container">
+        <iframe 
+          src="https://www.youtube.com/embed/_u4sCa21zYk" 
+          title="YouTube video player" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+          allowfullscreen>
+        </iframe>
+      </div>
+      <button class="info-button" onclick="openTextOverlay(0)">Read Information</button>
+    </div>
+
+    <div class="media-item-wrapper">
+      <div class="media-container">
+        <iframe 
+          src="https://www.youtube.com/embed/BHACKWH_L1M" 
+          title="YouTube video player" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+          allowfullscreen>
+        </iframe>
+      </div>
+      <button class="info-button" onclick="openTextOverlay(1)">Read Information</button>
+    </div>
+
+    <div class="media-item-wrapper picture-spot">
+      <div class="media-container">
+          <img 
+              src="https://placehold.co/600x338/eef1f5/2c3e50?text=Your+Picture+Here" 
+              alt="Placeholder for a custom picture"
+              onerror="this.onerror=null;this.src='https://placehold.co/600x338/eef1f5/2c3e50?text=Image+Not+Found';"
+          >
+      </div>
+      <button class="info-button" onclick="openTextOverlay(2)">Read Information</button>
+    </div>
+
+    <div class="media-item-wrapper">
+      <div class="media-container">
+        <iframe 
+          src="https://www.youtube.com/embed/lxp_h42W4pI" 
+          title="YouTube video player" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+          allowfullscreen>
+        </iframe>
+      </div>
+      <button class="info-button" onclick="openTextOverlay(3)">Read Information</button>
+    </div>
+  </div>
+
+  <div id="songsOverlay" class="overlay">
+    <div class="overlay-content">
+      <span class="close-btn" onclick="closeSongsOverlay()">×</span>
+      <h2>My Selected Songs & Motivation Talks</h2>
+      <input type="text" id="songsSearch" placeholder="Search for a song..." style="display:none;">
+      <div id="songsList" class="song-list-container">
+        </div>
+      <div class="vibe-section" id="vibeSection">
+        <p>Not your vibe? Click here</p>
+        <button id="millionSongsBtn">Explore More</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="textOverlay" class="overlay">
+    <div class="overlay-content">
+      <span class="close-btn" onclick="closeTextOverlay()">×</span>
+      <h2 id="textOverlayTitle">Information Details</h2>
+      <div id="textContent">
+        </div>
+    </div>
+  </div>
+
+  <script>
+    // --- Element References ---
+    const editorControls = document.getElementById("editorControls");
+    const songsButton = document.getElementById("songsButton");
+    const songsOverlay = document.getElementById("songsOverlay");
+    const songsList = document.getElementById("songsList");
+    const audioPlayer = document.getElementById("audioPlayer");
+    const nowPlayingText = document.getElementById("nowPlayingText");
+    const millionSongsBtn = document.getElementById("millionSongsBtn");
+    const songsSearch = document.getElementById("songsSearch");
+    const loopToggleButton = document.getElementById("loopToggleButton");
+
+    // New Text Overlay Elements
+    const textOverlay = document.getElementById("textOverlay");
+    const textContentDiv = document.getElementById("textContent");
+    const textOverlayTitle = document.getElementById("textOverlayTitle");
+
+    // Admin Text Editing Elements
+    const infoContentSelector = document.getElementById("infoContentSelector");
+    const adminInfoTextarea = document.getElementById("adminInfoText");
+
+    // --- Dummy data for songs and motivation talks ---
+    const audioCollection = [
+      { name: "Upbeat Motivational Song", type: "song", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
+      { name: "Relaxing Acoustic Tune", type: "song", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
+      { name: "Morning Meditation Guide", type: "motivation", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
+      { name: "Focus & Productivity Talk", type: "motivation", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
+      { name: "Inspirational Speech", type: "motivation", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" },
+      { name: "Energetic Pop", type: "song", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" },
+      { name: "Calm Piano Melody", type: "song", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3" },
+    ];
+
+    // Dummy data for a "million songs" (simulated for demonstration)
+    const largeAudioCollection = [];
+    for (let i = 0; i < 500; i++) {
+      largeAudioCollection.push({
+        name: `Discovery Track ${i + 1}`,
+        type: (i % 3 === 0) ? "motivation" : "song",
+        src: `https://www.soundhelix.com/examples/mp3/SoundHelix-Song-${(i % 10) + 1}.mp3`
+      });
+    }
+
+    // --- Array to hold your manual text content ---
+    // Each element in this array corresponds to the content for a "Read Information" button.
+    // The index passed to openTextOverlay() will determine which content is displayed.
+    let infoContents = [
+      "This is the detailed information for Video 1. You can paste a very long text here, pretending it's 1000 pages of content. It will be scrollable within the overlay. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. \n\n" + "=".repeat(80) + "\n\n" + "This section continues the information for Video 1. You can add as much text as you need. The `white-space: pre-wrap;` CSS property ensures that line breaks you type (like this one) are preserved, and that long lines wrap automatically. This makes it easier to format multi-paragraph text directly in your JavaScript. Just make sure to use `\n\n` for new paragraphs if you want proper spacing. This is a very long paragraph to demonstrate scrolling. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. ".repeat(100), // Content for Video 1
+      "Information specifically for Video 2. This content is different from Video 1's. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", // Content for Video 2
+      "This is the detailed description for the Picture. It might be a report, an analysis, or just a fun story related to the image. Feel free to add as many details as you want here. This text will also be scrollable if it exceeds the overlay height.", // Content for Picture 3
+      "Additional information for Video 4. This could be a transcript, a summary, or related articles. The more text you add, the more it will fill the scrollable area, simulating a long document.", // Content for Video 4
+    ];
+
+    // Load content from localStorage if available
+    function loadInfoContentsFromStorage() {
+        const storedContents = localStorage.getItem('infoContents');
+        if (storedContents) {
+            try {
+                infoContents = JSON.parse(storedContents);
+            } catch (e) {
+                console.error("Error parsing stored infoContents:", e);
+                // Fallback to default if parsing fails
+            }
+        }
+    }
+
+    // Save content to localStorage
+    function saveInfoContentsToStorage() {
+        localStorage.setItem('infoContents', JSON.stringify(infoContents));
+    }
+
+    // Initialize content from storage on load
+    loadInfoContentsFromStorage();
+
+    // --- Admin Login ---
+    function checkPassword() {
+      const password = document.getElementById("adminPassword").value;
+      // IMPORTANT: This is not secure for a real website.
+      // This is for demonstration purposes only.
+      const correctPassword = "yourpassword"; 
+      if (password === correctPassword) {
+        editorControls.style.display = "flex";
+        document.getElementById("adminLogin").style.display = "none";
+        // Load initial content into textarea when admin logs in
+        adminInfoTextarea.value = infoContents[parseInt(infoContentSelector.value)];
+      } else {
+        // Using a custom message box instead of alert
+        const messageBox = document.createElement('div');
+        messageBox.textContent = 'Incorrect password. Please try again.';
+        messageBox.style.position = 'fixed';
+        messageBox.style.top = '20px';
+        messageBox.style.left = '50%';
+        messageBox.style.transform = 'translateX(-50%)';
+        messageBox.style.padding = '10px 20px';
+        messageBox.style.background = '#e74c3c';
+        messageBox.style.color = 'white';
+        messageBox.style.borderRadius = '8px';
+        messageBox.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
+        messageBox.style.zIndex = '2000';
+        document.body.appendChild(messageBox);
+        setTimeout(() => document.body.removeChild(messageBox), 3000);
+      }
+    }
+
+    // --- Admin Text Editing Functions ---
+    infoContentSelector.addEventListener('change', () => {
+        const selectedIndex = parseInt(infoContentSelector.value);
+        adminInfoTextarea.value = infoContents[selectedIndex];
+    });
+
+    function saveAdminInfoText() {
+        const selectedIndex = parseInt(infoContentSelector.value);
+        infoContents[selectedIndex] = adminInfoTextarea.value;
+        saveInfoContentsToStorage(); // Save to local storage
+        const messageBox = document.createElement('div');
+        messageBox.textContent = 'Content saved successfully!';
+        messageBox.style.position = 'fixed';
+        messageBox.style.top = '20px';
+        messageBox.style.left = '50%';
+        messageBox.style.transform = 'translateX(-50%)';
+        messageBox.style.padding = '10px 20px';
+        messageBox.style.background = '#28a745';
+        messageBox.style.color = 'white';
+        messageBox.style.borderRadius = '8px';
+        messageBox.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
+        messageBox.style.zIndex = '2000';
+        document.body.appendChild(messageBox);
+        setTimeout(() => document.body.removeChild(messageBox), 3000);
+    }
+
+
+    // --- Songs Feature Functions ---
+    songsButton.addEventListener("click", () => {
+      songsOverlay.classList.add("show");
+      songsOverlay.style.display = "flex";
+      loadSongsList(audioCollection);
+      songsSearch.style.display = 'none';
+      document.getElementById("vibeSection").style.display = 'flex'; // Ensure vibe section is visible
+      loopToggleButton.textContent = audioPlayer.loop ? "Loop: ON" : "Loop: OFF";
+    });
+
+    function closeSongsOverlay() {
+      songsOverlay.classList.remove("show");
+      songsOverlay.style.display = "none";
+    }
+
+    function loadSongsList(collection, filter = '') {
+      songsList.innerHTML = "";
+      const filteredCollection = collection.filter(item =>
+        item.name.toLowerCase().includes(filter.toLowerCase())
+      );
+
+      if (filteredCollection.length === 0) {
+        songsList.innerHTML = '<p style="text-align: center; color: #666;">No songs found matching your search.</p>';
+        return;
+      }
+
+      filteredCollection.forEach((item) => {
+        const songItem = document.createElement("div");
+        songItem.classList.add("song-item");
+        // Determine which collection the item is from to pass the correct flag
+        const isFromLargeCollection = (collection === largeAudioCollection);
+        const originalIndex = collection.indexOf(item);
+
+        songItem.innerHTML = `
+          <span>${item.name} <span style="opacity: 0.7; font-size: 0.9em;">(${item.type})</span></span>
+          <button onclick="playAudio(${originalIndex}, ${isFromLargeCollection})">Play</button>
+        `;
+        songsList.appendChild(songItem);
+      });
+    }
+
+    function playAudio(index, fromLargeCollection = false) {
+      const currentCollection = fromLargeCollection ? largeAudioCollection : audioCollection;
+      const selectedAudio = currentCollection[index];
+      if (selectedAudio) {
+        audioPlayer.src = selectedAudio.src;
+        audioPlayer.play();
+        nowPlayingText.textContent = `Now playing: ${selectedAudio.name}`;
+        loopToggleButton.textContent = audioPlayer.loop ? "Loop: ON" : "Loop: OFF";
+      }
+    }
+
+    millionSongsBtn.addEventListener("click", () => {
+      songsList.style.maxHeight = 'unset';
+      loadSongsList(largeAudioCollection);
+      songsSearch.style.display = 'block';
+      songsSearch.value = '';
+      songsSearch.focus();
+      document.getElementById("vibeSection").style.display = 'none';
+    });
+
+    songsSearch.addEventListener('input', () => {
+      // Check if the vibe section is hidden to determine which list is active
+      const isLargeListActive = document.getElementById("vibeSection").style.display === 'none';
+      const currentCollection = isLargeListActive ? largeAudioCollection : audioCollection;
+      loadSongsList(currentCollection, songsSearch.value);
+    });
+
+    loopToggleButton.addEventListener('click', () => {
+        audioPlayer.loop = !audioPlayer.loop;
+        loopToggleButton.textContent = audioPlayer.loop ? "Loop: ON" : "Loop: OFF";
+    });
+
+    // --- Text Overlay Functions (New) ---
+    function openTextOverlay(contentIndex) {
+      if (contentIndex >= 0 && contentIndex < infoContents.length) {
+        textOverlayTitle.textContent = infoContentSelector.options[contentIndex].text; // Set title from dropdown
+        textContentDiv.textContent = infoContents[contentIndex];
+        textOverlay.classList.add("show");
+        textOverlay.style.display = "flex";
+      } else {
+        console.error("Invalid content index:", contentIndex);
+      }
+    }
+
+    function closeTextOverlay() {
+      textOverlay.classList.remove("show");
+      textOverlay.style.display = "none";
+      textContentDiv.textContent = ""; // Clear content
+      textOverlayTitle.textContent = "Information Details"; // Reset title
+    }
+
+  </script>
+
+</body>
+</html>

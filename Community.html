@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alamsco Services - Empowering Solutions</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base Styles */
+        :root {
+            --primary-color: #0056b3; /* Darker blue for primary actions/branding */
+            --secondary-color: #007bff; /* Lighter blue for accents */
+            --text-color: #333;
+            --light-text-color: #f4f7f6;
+            --background-light: #f8faff;
+            --background-card: #ffffff;
+            --shadow-light: rgba(0, 0, 0, 0.08);
+            --shadow-hover: rgba(0, 0, 0, 0.15);
+            --border-radius-main: 12px;
+            --border-radius-card: 10px;
+            --form-border-color: #d0e0f0;
+            --form-focus-glow: rgba(0, 123, 255, 0.15);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-light);
+            color: var(--text-color);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--background-card);
+            padding: 15px 0;
+            box-shadow: 0 2px 8px var(--shadow-light);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center; /* Center the logo/name */
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo-name {
+            font-family: 'Montserrat', sans-serif; /* More distinct font for the name */
+            font-size: 2.2em;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: var(--light-text-color);
+            text-align: center;
+            padding: 100px 20px;
+            border-radius: var(--border-radius-main);
+            margin-bottom: 60px;
+            margin-top: 20px;
+            box-shadow: 0 8px 20px var(--shadow-hover);
+        }
+
+        .hero h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            font-weight: 700;
+            line-height: 1.2;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero p {
+            font-size: 1.3em;
+            max-width: 800px;
+            margin: 0 auto 30px auto;
+            opacity: 0.95;
+        }
+
+        /* Video Grid */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Responsive columns */
+            gap: 40px; /* More space between videos */
+            padding: 20px;
+        }
+
+        .video-card {
+            background-color: var(--background-card);
+            border-radius: var(--border-radius-card);
+            box-shadow: 0 6px 15px var(--shadow-light);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .video-card:hover {
+            transform: translateY(-10px); /* More dynamic lift */
+            box-shadow: 0 15px 30px var(--shadow-hover); /* Stronger shadow */
+        }
+
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio (9 / 16 * 100%) */
+            background-color: #000; /* Black background for video area */
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: var(--border-radius-card) var(--border-radius-card) 0 0; /* Match card top corners */
+        }
+
+        .video-description {
+            padding: 25px;
+            font-size: 1em;
+            color: var(--text-color);
+            text-align: center; /* Center the description text */
+            line-height: 1.5;
+        }
+
+        .video-description h3 {
+            font-size: 1.6em;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background-color: var(--background-card);
+            padding: 60px 20px;
+            margin-top: 80px;
+            border-radius: var(--border-radius-main);
+            box-shadow: 0 8px 20px var(--shadow-light);
+            text-align: center;
+        }
+
+        .contact-section h2 {
+            font-size: 2.8em;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 25px;
+        }
+
+        .contact-section p {
+            font-size: 1.1em;
+            max-width: 700px;
+            margin: 0 auto 40px auto;
+            color: #555;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px; /* Space between form fields */
+        }
+
+        .form-group {
+            text-align: left; /* Align labels to the left */
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.95em;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-color);
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid var(--form-border-color);
+            border-radius: 8px;
+            font-size: 1em;
+            color: var(--text-color);
+            background-color: var(--background-light); /* Light background for inputs */
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            box-sizing: border-box; /* Include padding in width */
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #aaa;
+            opacity: 0.8;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px var(--form-focus-glow);
+            outline: none;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical; /* Allow vertical resizing */
+        }
+
+        .submit-button {
+            background-color: var(--primary-color);
+            color: var(--light-text-color);
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            margin-top: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .submit-button:hover {
+            background-color: #004494; /* Slightly darker primary on hover */
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            background-color: var(--primary-color);
+            color: var(--light-text-color);
+            margin-top: 80px; /* More space above footer */
+            border-top-left-radius: var(--border-radius-main);
+            border-top-right-radius: var(--border-radius-main);
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .logo-name {
+                font-size: 1.8em;
+            }
+            .hero {
+                padding: 70px 20px;
+            }
+            .hero h1 {
+                font-size: 2.8em;
+            }
+            .hero p {
+                font-size: 1.1em;
+            }
+            .video-grid {
+                grid-template-columns: 1fr; /* Stack on small screens */
+                gap: 30px;
+            }
+            .video-description {
+                padding: 20px;
+                font-size: 0.95em;
+            }
+            .video-description h3 {
+                font-size: 1.4em;
+            }
+            .contact-section {
+                padding: 40px 20px;
+            }
+            .contact-section h2 {
+                font-size: 2.2em;
+            }
+            .contact-section p {
+                font-size: 1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo-name {
+                font-size: 1.5em;
+            }
+            .hero {
+                padding: 50px 15px;
+                margin-top: 10px;
+            }
+            .hero h1 {
+                font-size: 2.2em;
+            }
+            .hero p {
+                font-size: 1em;
+            }
+            .container {
+                padding: 15px;
+            }
+            .form-group input, .form-group textarea {
+                padding: 12px;
+                font-size: 0.95em;
+            }
+            .submit-button {
+                padding: 12px 20px;
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo-name">Alamsco Services</div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>Transforming Visions into Reality</h1>
+                <p>At Alamsco Services, we bring innovative solutions to life. Explore our projects, insights, and how we empower your success.</p>
+            </div>
+        </section>
+
+        <section id="services-showcase" class="container video-grid">
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/UGY0iR28c2w" title="YouTube video player 1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </div>
+                <div class="video-description">
+                    <h3>Innovative Software Development</h3>
+                    <p>Discover our agile approach to building robust and scalable software solutions tailored to your business needs.</p>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player 2" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </div>
+                <div class="video-description">
+                    <h3>Strategic IT Consulting</h3>
+                    <p>Learn how our expert consultants guide you through complex technological landscapes, optimizing your IT infrastructure.</p>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/z-gV5f-V7Xg" title="YouTube video player 3" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </div>
+                <div class="video-description">
+                    <h3>Cutting-Edge Cloud Solutions</h3>
+                    <p>Explore our secure and efficient cloud services, providing flexibility and reliability for your data and applications.</p>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/BwD035I_G5k" title="YouTube video player 4" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </div>
+                <div class="video-description">
+                    <h3>Data Analytics & Insights</h3>
+                    <p>Uncover the power of your data with our advanced analytics services, turning raw information into actionable insights.</p>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/f_Y7l98Wp_A" title="YouTube video player 5" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </div>
+                <div class="video-description">
+                    <h3>Cybersecurity & Privacy</h3>
+                    <p>Protect your digital assets with our robust cybersecurity solutions, ensuring compliance and peace of mind.</p>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/8CVbC_nQ4wU" title="YouTube video player 6" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </div>
+                <div class="video-description">
+                    <h3>User Experience Design (UX/UI)</h3>
+                    <p>See how we craft intuitive and engaging user experiences, making complex systems simple and delightful to use.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="container contact-section">
+            <h2>Get in Touch with Alamsco</h2>
+            <p>Have a project in mind, a question, or just want to say hello? Fill out the form below and we'll get back to you promptly.</p>
+
+            <form class="contact-form" action="#" method="POST"> <div class="form-group">
+                    <label for="name">Your Name</label>
+                    <input type="text" id="name" name="name" placeholder="John Doe" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Your Email</label>
+                    <input type="email" id="email" name="email" placeholder="john.doe@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <input type="text" id="subject" name="subject" placeholder="Inquiry about IT Consulting">
+                </div>
+                <div class="form-group">
+                    <label for="message">Your Message</label>
+                    <textarea id="message" name="message" placeholder="Type your message here..." required></textarea>
+                </div>
+                <button type="submit" class="submit-button">Send Message</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Alamsco Services. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

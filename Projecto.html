@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Awesome Product Gallery</title>
+    <style>
+        /* --- CSS Styling --- */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e0f2f7; /* A nice light blue background */
+            color: #333;
+        }
+
+        .navbar {
+            background-color: #2196f3; /* A darker blue for the navbar */
+            padding: 15px 20px;
+            display: flex;
+            justify-content: center; /* Center the search container */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            max-width: 800px; /* Limit the width of the search container */
+        }
+
+        .search-placeholder {
+            flex-grow: 1;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white */
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .three-d-button {
+            background-color: #ff9800; /* Orange color for the button */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            margin-left: 15px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .three-d-button:hover {
+            background-color: #fb8c00;
+        }
+
+        .product-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive grid */
+            gap: 30px;
+            padding: 40px;
+            max-width: 1200px;
+            margin: 20px auto;
+        }
+
+        .product-item {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            padding-bottom: 20px; /* Space for the description to expand */
+        }
+
+        .product-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-item img { /* Target the image inside the link */
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            display: block; /* Remove extra space below image */
+        }
+
+        .product-item a { /* Style for the link itself */
+            text-decoration: none; /* Remove underline from image link */
+            color: inherit; /* Inherit text color if any text is inside the link */
+            display: block; /* Make the link fill its container */
+        }
+
+
+        .product-info {
+            padding: 15px;
+            position: relative; /* Needed for positioning the description */
+        }
+
+        .product-name {
+            margin: 10px 0;
+            font-size: 20px;
+            color: #3f51b5; /* A slightly darker blue for product names */
+            cursor: pointer; /* Indicate it's interactive */
+        }
+
+        .product-description {
+            max-height: 0; /* Initially hidden */
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
+            opacity: 0; /* Initially invisible */
+            padding: 0 10px; /* Some horizontal padding for text */
+            text-align: left; /* Align description text left */
+            font-size: 14px;
+            color: #555;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            margin-top: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .product-name:hover + .product-description,
+        .product-description:hover { /* Keep description open when hovering over it */
+            max-height: 200px; /* Adjust as needed for max description length */
+            opacity: 1;
+            padding: 10px; /* Show padding when expanded */
+        }
+
+        /* Optional: Media queries for smaller screens */
+        @media (max-width: 768px) {
+            .product-gallery {
+                padding: 20px;
+                gap: 20px;
+            }
+            .navbar {
+                flex-direction: column;
+                align-items: center;
+            }
+            .search-container {
+                flex-direction: column;
+                width: 90%;
+            }
+            .search-placeholder {
+                margin-bottom: 10px;
+                width: 100%;
+            }
+            .three-d-button {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Search products..." class="search-placeholder">
+            <button class="three-d-button">3D Create</button>
+        </div>
+    </header>
+
+    <main class="product-gallery" id="product-gallery">
+        <div class="product-item">
+            <a href="product-page-blue-widget.html"> <img src="https://via.placeholder.com/280x250?text=Blue+Widget+Pro" alt="Blue Widget Pro" class="product-image">
+            </a>
+            <div class="product-info">
+                <h3 class="product-name">Blue Widget Pro</h3>
+                <div class="product-description">
+                    <p>This is the ultimate Blue Widget Pro, designed for unparalleled performance and durability. It features a sleek, ergonomic design and advanced functionalities that make your daily tasks a breeze. Experience efficiency like never before with this innovative product. Perfect for both professionals and enthusiasts, its robust construction ensures long-lasting use. Get yours today!</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-item">
+            <a href="product-page-green-gadget.html"> <img src="https://via.placeholder.com/280x250?text=Green+Gadget+X" alt="Green Gadget X" class="product-image">
+            </a>
+            <div class="product-info">
+                <h3 class="product-name">Green Gadget X</h3>
+                <div class="product-description">
+                    <p>Introducing the Green Gadget X, an eco-friendly and powerful device for all your needs. Its energy-efficient design helps reduce your carbon footprint while delivering top-tier performance. Made from recycled materials, this gadget is a testament to sustainable innovation. Lightweight and portable, it's your perfect companion on the go. Embrace the future with Green Gadget X!</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-item">
+            <a href="product-page-red-gizmo.html"> <img src="https://via.placeholder.com/280x250?text=Red+Gizmo+Elite" alt="Red Gizmo Elite" class="product-image">
+            </a>
+            <div class="product-info">
+                <h3 class="product-name">Red Gizmo Elite</h3>
+                <div class="product-description">
+                    <p>The Red Gizmo Elite is crafted for those who demand excellence. Its vibrant red finish isn't just for show; it houses cutting-edge technology that elevates your user experience. With intuitive controls and a powerful processor, this gizmo handles complex tasks with ease. Ideal for creative professionals and tech enthusiasts seeking peak performance and a bold statement.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-item">
+            <a href="product-page-yellow-dynamo.html"> <img src="https://via.placeholder.com/280x250?text=Yellow+Dynamo+Mini" alt="Yellow Dynamo Mini" class="product-image">
+            </a>
+            <div class="product-info">
+                <h3 class="product-name">Yellow Dynamo Mini</h3>
+                <div class="product-description">
+                    <p>Don't let its size fool you, the Yellow Dynamo Mini packs a punch! This compact device is perfect for on-the-go productivity and entertainment. Its bright yellow exterior adds a touch of fun, while its robust internal components ensure smooth operation. Experience power in your pocket with the Yellow Dynamo Mini, designed for ultimate convenience and portability.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-item">
+            <a href="product-page-purple-orb.html"> <img src="https://via.placeholder.com/280x250?text=Purple+Orb+Classic" alt="Purple Orb Classic" class="product-image">
+            </a>
+            <div class="product-info">
+                <h3 class="product-name">Purple Orb Classic</h3>
+                <div class="product-description">
+                    <p>The Purple Orb Classic offers a unique blend of vintage charm and modern functionality. Its mesmerizing purple hue and spherical design make it a standout piece. Beyond its captivating appearance, it provides reliable performance for a variety of applications. A true collector's item, the Purple Orb Classic is where timeless aesthetics meet contemporary utility.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-item">
+            <a href="product-page-orange-contraption.html"> <img src="https://via.placeholder.com/280x250?text=Orange+Contraption+Max" alt="Orange Contraption Max" class="product-image">
+            </a>
+            <div class="product-info">
+                <h3 class="product-name">Orange Contraption Max</h3>
+                <div class="product-description">
+                    <p>Maximize your potential with the Orange Contraption Max! This heavy-duty device is built to handle the most demanding tasks with ease. Its rugged construction ensures durability in any environment, while its powerful features provide unparalleled efficiency. Whether for work or play, the Orange Contraption Max is your go-to solution for maximum performance and reliability.</p>
+                </div>
+            </div>
+        </div>
+        </main>
+
+    <script>
+        /* --- JavaScript Functionality --- */
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('search-input');
+            const productGallery = document.getElementById('product-gallery');
+            const productItems = productGallery.getElementsByClassName('product-item');
+
+            // --- Search Functionality ---
+            searchInput.addEventListener('keyup', (event) => {
+                const searchTerm = event.target.value.toLowerCase();
+
+                Array.from(productItems).forEach(item => {
+                    const productName = item.querySelector('.product-name').textContent.toLowerCase();
+                    const productDescription = item.querySelector('.product-description p').textContent.toLowerCase();
+
+                    // Check if the search term is in the product name OR description
+                    if (productName.includes(searchTerm) || productDescription.includes(searchTerm)) {
+                        item.style.display = 'block'; // Show the product
+                    } else {
+                        item.style.display = 'none'; // Hide the product
+                    }
+                });
+            });
+
+            // The hover effect for descriptions is primarily handled by CSS `:hover` rules.
+            // This keeps the JavaScript minimal for this specific feature,
+            // making the page lighter and more performant.
+        });
+    </script>
+</body>
+</html>

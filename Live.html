@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alamsco Live - Your Engagement Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <style>
+        /* Base Styles & Variables (Consistent with previous pages) */
+        :root {
+            --primary-color: #0056b3; /* Darker blue for primary actions/branding */
+            --secondary-color: #007bff; /* Lighter blue for accents */
+            --text-color: #333;
+            --light-text-color: #f4f7f6;
+            --background-light: #f8faff;
+            --background-dark: #2c3e50; /* For sidebar/chat */
+            --background-card: #ffffff;
+            --shadow-light: rgba(0, 0, 0, 0.08);
+            --shadow-hover: rgba(0, 0, 0, 0.15);
+            --border-radius-main: 12px;
+            --border-radius-card: 10px;
+            --live-red: #ff4d4f; /* Distinct red for live indicator */
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-light);
+            color: var(--text-color);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+            display: flex; /* Use flexbox for full page layout */
+            flex-direction: column;
+            min-height: 100vh; /* Ensure body takes full viewport height */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--background-card);
+            padding: 15px 0;
+            box-shadow: 0 2px 8px var(--shadow-light);
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo-name {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.2em;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            text-decoration: none;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            margin-left: 25px;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .hamburger-menu {
+            display: none; /* Hidden on desktop */
+            font-size: 1.8em;
+            color: var(--primary-color);
+            cursor: pointer;
+        }
+
+        /* Main Live Layout Container */
+        .live-layout-container {
+            display: flex;
+            flex: 1; /* Allow main content to grow */
+            margin-top: 20px; /* Space below header */
+            padding: 0 20px 20px 20px; /* Padding for entire main section */
+            gap: 20px; /* Space between sidebar, main, and chat */
+        }
+
+        /* Sidebar */
+        .sidebar {
+            flex: 0 0 280px; /* Fixed width sidebar */
+            background-color: var(--background-dark);
+            border-radius: var(--border-radius-card);
+            padding: 20px;
+            box-shadow: 0 6px 15px var(--shadow-light);
+            color: var(--light-text-color);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto; /* Scroll for content if needed */
+        }
+
+        .sidebar h3 {
+            font-size: 1.5em;
+            font-weight: 600;
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: var(--secondary-color);
+        }
+
+        .sidebar-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            color: var(--light-text-color);
+            text-decoration: none;
+            border-radius: 6px;
+            transition: background-color 0.2s ease, color 0.2s ease;
+            font-size: 0.95em;
+        }
+
+        .sidebar-nav a:hover, .sidebar-nav a.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--secondary-color);
+        }
+
+        .sidebar-nav a i {
+            margin-right: 10px;
+            font-size: 1.1em;
+        }
+
+        .sidebar-channels {
+            margin-top: 30px;
+            flex: 1; /* Allow channels list to take remaining height */
+        }
+
+        .sidebar-channels h4 {
+            font-size: 1.2em;
+            color: var(--light-text-color);
+            margin-bottom: 15px;
+        }
+
+        .channel-list .channel-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 15px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            transition: background-color 0.2s ease;
+            cursor: pointer;
+        }
+
+        .channel-list .channel-item:hover {
+            background-color: rgba(255, 255, 255, 0.08);
+        }
+
+        .channel-list .channel-item.active {
+            background-color: rgba(255, 255, 255, 0.15);
+            outline: 1px solid var(--secondary-color); /* Highlight active */
+        }
+
+        .channel-item .avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin-right: 10px;
+            color: var(--light-text-color);
+        }
+
+        .channel-item .channel-info {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .channel-item .channel-info .title {
+            font-weight: 600;
+            color: var(--light-text-color);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .channel-item .channel-info .streamer {
+            font-size: 0.85em;
+            color: #ccc;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .channel-item .live-indicator {
+            width: 8px;
+            height: 8px;
+            background-color: var(--live-red);
+            border-radius: 50%;
+            margin-left: 10px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Main Stream Area */
+        .main-stream-area {
+            flex: 3; /* Main content takes more space */
+            display: flex;
+            flex-direction: column;
+            background-color: var(--background-card);
+            border-radius: var(--border-radius-card);
+            box-shadow: 0 6px 15px var(--shadow-light);
+            overflow: hidden; /* Ensure video corners are rounded */
+        }
+
+        .video-player-wrapper {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            background-color: #000;
+        }
+
+        .video-player-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .stream-info {
+            padding: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .stream-info h2 {
+            font-size: 2em;
+            margin-top: 0;
+            margin-bottom: 8px;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .stream-info p {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .stream-info .meta-data {
+            font-size: 0.9em;
+            color: #888;
+        }
+
+        /* Chat Area */
+        .chat-area {
+            flex: 1; /* Chat takes remaining space */
+            background-color: var(--background-card);
+            border-radius: var(--border-radius-card);
+            box-shadow: 0 6px 15px var(--shadow-light);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden; /* For chat messages scroll */
+        }
+
+        .chat-header {
+            background-color: var(--primary-color);
+            color: var(--light-text-color);
+            padding: 15px 20px;
+            font-size: 1.2em;
+            font-weight: 600;
+            border-top-left-radius: var(--border-radius-card);
+            border-top-right-radius: var(--border-radius-card);
+        }
+
+        .chat-messages {
+            flex: 1; /* Chat messages take available height */
+            padding: 15px 20px;
+            overflow-y: auto; /* Enable scrolling for chat */
+            display: flex;
+            flex-direction: column; /* Stack messages vertically */
+        }
+
+        .chat-message {
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .chat-message .username {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-right: 5px;
+        }
+
+        .chat-message .text {
+            color: var(--text-color);
+        }
+
+        .chat-input-area {
+            border-top: 1px solid #eee;
+            padding: 15px 20px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .chat-input-area input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid var(--form-border-color);
+            border-radius: 8px;
+            font-size: 1em;
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .chat-input-area input:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px var(--form-focus-glow);
+        }
+
+        .chat-input-area button {
+            background-color: var(--primary-color);
+            color: var(--light-text-color);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+
+        .chat-input-area button:hover {
+            background-color: #004494;
+        }
+
+        .interactive-widgets {
+            border-top: 1px solid #eee;
+            padding: 15px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .interactive-widgets h4 {
+            font-size: 1.1em;
+            color: var(--primary-color);
+            margin-top: 0;
+            margin-bottom: 5px;
+        }
+
+        .widget-placeholder {
+            background-color: var(--background-light);
+            border: 1px dashed #ccc;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #888;
+        }
+
+        /* Footer (Consistent with previous pages) */
+        footer {
+            text-align: center;
+            padding: 20px 20px; /* Reduced padding for compact live page */
+            background-color: var(--primary-color);
+            color: var(--light-text-color);
+            margin-top: 20px;
+            border-top-left-radius: var(--border-radius-main);
+            border-top-right-radius: var(--border-radius-main);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 1024px) {
+            .live-layout-container {
+                flex-direction: column; /* Stack main content, sidebar, chat */
+                padding: 0 15px 15px 15px;
+            }
+
+            .sidebar {
+                flex: none; /* Remove fixed width */
+                width: 100%;
+                order: 2; /* Move sidebar below main content */
+                height: auto;
+                max-height: 250px; /* Limit sidebar height when stacked */
+            }
+            .sidebar-channels {
+                margin-top: 20px;
+            }
+
+            .main-stream-area {
+                order: 1; /* Main content first */
+                flex: none;
+                width: 100%;
+            }
+
+            .chat-area {
+                order: 3; /* Chat area at the bottom */
+                flex: none;
+                width: 100%;
+                height: 400px; /* Give chat a fixed height on smaller screens */
+            }
+
+            .chat-messages {
+                height: calc(100% - 150px); /* Adjust based on header/input height */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .logo-name {
+                font-size: 1.8em;
+            }
+            .nav-links {
+                display: none; /* Hide nav links on smaller screens */
+            }
+            .hamburger-menu {
+                display: block; /* Show hamburger menu */
+            }
+            .header-content {
+                justify-content: space-between;
+            }
+
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: -300px; /* Start off-screen */
+                width: 280px;
+                height: 100vh;
+                padding-top: 70px; /* Space for header */
+                z-index: 1050;
+                transition: left 0.3s ease;
+                box-shadow: 2px 0 10px rgba(0,0,0,0.3);
+            }
+            .sidebar.active {
+                left: 0; /* Slide in */
+            }
+            .overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.5);
+                z-index: 1040;
+            }
+            .overlay.active {
+                display: block;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo-name {
+                font-size: 1.5em;
+            }
+            .live-layout-container {
+                padding: 0 10px 10px 10px;
+                gap: 15px;
+            }
+            .stream-info h2 {
+                font-size: 1.6em;
+            }
+            .stream-info p {
+                font-size: 0.9em;
+            }
+            .chat-messages {
+                padding: 10px 15px;
+            }
+            .chat-message .username {
+                font-size: 0.9em;
+            }
+            .chat-message .text {
+                font-size: 0.9em;
+            }
+            .chat-input-area input, .chat-input-area button {
+                padding: 8px 12px;
+                font-size: 0.9em;
+            }
+            .interactive-widgets {
+                padding: 10px 15px;
+            }
+            .sidebar {
+                width: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content container">
+            <a href="index.html" class="logo-name">Alamsco Live</a>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="about.html">About Us</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+            <div class="hamburger-menu" id="hamburgerMenu"><i class="fas fa-bars"></i></div>
+        </div>
+    </header>
+
+    <div class="overlay" id="sidebarOverlay"></div>
+
+    <main class="live-layout-container">
+        <aside class="sidebar" id="sidebar">
+            <h3>Explore Sessions</h3>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#" class="active"><i class="fas fa-stream"></i> Live Now</a></li>
+                    <li><a href="#"><i class="fas fa-video"></i> Categories</a></li>
+                    <li><a href="#"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
+                    <li><a href="#"><i class="fas fa-star"></i> Featured</a></li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-channels">
+                <h4>Live Channels</h4>
+                <div class="channel-list" id="channelList">
+                    </div>
+            </div>
+        </aside>
+
+        <section class="main-stream-area">
+            <div class="video-player-wrapper">
+                <iframe id="mainVideoPlayer" src="https://www.youtube.com/embed/M7lc1UVf-VE?autoplay=1&mute=1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+            <div class="stream-info">
+                <h2 id="streamTitle">Innovation Summit: Keynote & Future Tech Trends</h2>
+                <p id="streamerName">Streamer: <span style="font-weight: 600;">Alamsco Lead Innovator</span></p>
+                <p class="meta-data" id="streamCategory">Category: Technology & Innovation</p>
+                <p class="meta-data" id="streamViews">Viewers: 1.2k</p>
+            </div>
+        </section>
+
+        <section class="chat-area">
+            <div class="chat-header">Live Chat</div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="chat-message"><span class="username">AlamscoAdmin:</span> <span class="text">Welcome to Alamsco Live! Feel free to ask questions.</span></div>
+                <div class="chat-message"><span class="username">User123:</span> <span class="text">Loving this session! Very insightful.</span></div>
+                <div class="chat-message"><span class="username">TechGuru:</span> <span class="text">What's the next big thing in AI according to Alamsco?</span></div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="chatInput" placeholder="Type your message...">
+                <button id="sendMessageButton">Send</button>
+            </div>
+            <div class="interactive-widgets">
+                <h4>Interactive Widgets</h4>
+                <div class="widget-placeholder">
+                    Polls & Q&A will appear here!
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© 2025 Alamsco Live. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const channelList = document.getElementById('channelList');
+            const mainVideoPlayer = document.getElementById('mainVideoPlayer');
+            const streamTitle = document.getElementById('streamTitle');
+            const streamerName = document.getElementById('streamerName');
+            const streamCategory = document.getElementById('streamCategory');
+            const streamViews = document.getElementById('streamViews');
+            const chatMessagesContainer = document.getElementById('chatMessages');
+            const chatInput = document.getElementById('chatInput');
+            const sendMessageButton = document.getElementById('sendMessageButton');
+            const hamburgerMenu = document.getElementById('hamburgerMenu');
+            const sidebar = document.getElementById('sidebar');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+            // Simulated Live Stream Data (Replace with actual backend data in a real app)
+            const streams = [
+                {
+                    id: 'tech-summit',
+                    title: 'Innovation Summit: Keynote & Future Tech Trends',
+                    streamer: 'Alamsco Lead Innovator',
+                    category: 'Technology & Innovation',
+                    views: '1.2k',
+                    videoUrl: 'https://www.youtube.com/embed/M7lc1UVf-VE?autoplay=1&mute=1', // Placeholder YouTube Video (Tech Talk)
+                    isLive: true
+                },
+                {
+                    id: 'software-dev',
+                    title: 'Advanced Software Architectures Workshop',
+                    streamer: 'Dr. Aisha Nuru',
+                    category: 'Software Development',
+                    views: '850',
+                    videoUrl: 'https://www.youtube.com/embed/v9_J1t01M9c?autoplay=1&mute=1', // Placeholder YouTube Video (Coding Tutorial)
+                    isLive: true
+                },
+                {
+                    id: 'marketing-strategy',
+                    title: 'Digital Marketing in 2025: Strategies for Growth',
+                    streamer: 'Marketing Insights',
+                    category: 'Business & Marketing',
+                    views: '520',
+                    videoUrl: 'https://www.youtube.com/embed/g2d8g9_mN-0?autoplay=1&mute=1', // Placeholder YouTube Video (Marketing Lecture)
+                    isLive: true
+                },
+                {
+                    id: 'cybersecurity-qa',
+                    title: 'Cybersecurity Q&A: Protecting Your Digital Assets',
+                    streamer: 'Alamsco Security Expert',
+                    category: 'Cybersecurity',
+                    views: '980',
+                    videoUrl: 'https://www.youtube.com/embed/T00959L9tQ0?autoplay=1&mute=1', // Placeholder YouTube Video (Cybersecurity Talk)
+                    isLive: true
+                },
+                {
+                    id: 'data-analytics',
+                    title: 'Demystifying Data: An Introduction to Analytics',
+                    streamer: 'Data Science Hub',
+                    category: 'Data Science',
+                    views: '400',
+                    videoUrl: 'https://www.youtube.com/embed/t8Y7c-1-YdY?autoplay=1&mute=1', // Placeholder YouTube Video (Data Analytics Tutorial)
+                    isLive: false // Example of an offline stream
+                }
+            ];
+
+            // Function to render channels in the sidebar
+            function renderChannels() {
+                channelList.innerHTML = '';
+                streams.forEach(stream => {
+                    const channelItem = document.createElement('div');
+                    channelItem.classList.add('channel-item');
+                    if (stream.id === 'tech-summit') { // Set the initial active stream
+                        channelItem.classList.add('active');
+                    }
+                    channelItem.dataset.streamId = stream.id;
+
+                    channelItem.innerHTML = `
+                        <div class="avatar">${stream.streamer.split(' ').map(n => n[0]).join('').substring(0, 2)}</div>
+                        <div class="channel-info">
+                            <div class="title">${stream.title}</div>
+                            <div class="streamer">${stream.streamer}</div>
+                        </div>
+                        ${stream.isLive ? '<div class="live-indicator"></div>' : ''}
+                    `;
+                    channelList.appendChild(channelItem);
+
+                    channelItem.addEventListener('click', () => {
+                        loadStream(stream.id);
+                        // Remove active class from all, add to clicked
+                        document.querySelectorAll('.channel-item').forEach(item => item.classList.remove('active'));
+                        channelItem.classList.add('active');
+                        // Close sidebar on mobile after selection
+                        if (window.innerWidth <= 768) {
+                            sidebar.classList.remove('active');
+                            sidebarOverlay.classList.remove('active');
+                        }
+                    });
+                });
+            }
+
+            // Function to load stream into main player
+            function loadStream(streamId) {
+                const selectedStream = streams.find(s => s.id === streamId);
+                if (selectedStream) {
+                    mainVideoPlayer.src = selectedStream.videoUrl;
+                    streamTitle.textContent = selectedStream.title;
+                    streamerName.innerHTML = `Streamer: <span style="font-weight: 600;">${selectedStream.streamer}</span>`;
+                    streamCategory.textContent = `Category: ${selectedStream.category}`;
+                    streamViews.textContent = `Viewers: ${selectedStream.views}`;
+                    // Clear and reset chat for new stream
+                    chatMessagesContainer.innerHTML = '';
+                    addChatMessage('AlamscoAdmin', `Welcome to the "${selectedStream.title}" session!`);
+                }
+            }
+
+            // Chat functionality
+            function addChatMessage(username, text) {
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('chat-message');
+                messageElement.innerHTML = `<span class="username">${username}:</span> <span class="text">${text}</span>`;
+                chatMessagesContainer.appendChild(messageElement);
+                // Scroll to the bottom of the chat
+                chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
+            }
+
+            sendMessageButton.addEventListener('click', () => {
+                const message = chatInput.value.trim();
+                if (message) {
+                    addChatMessage('You', message); // Simulating user message
+                    chatInput.value = '';
+                    // Simulate a bot response after a short delay
+                    setTimeout(() => {
+                        addChatMessage('AlamscoBot', `Thanks for your message, "${message.substring(0, 20)}..."!`);
+                    }, 1000);
+                }
+            });
+
+            chatInput.addEventListener('keypress', (event) => {
+                if (event.key === 'Enter') {
+                    sendMessageButton.click();
+                }
+            });
+
+            // Hamburger menu toggle for mobile sidebar
+            hamburgerMenu.addEventListener('click', () => {
+                sidebar.classList.toggle('active');
+                sidebarOverlay.classList.toggle('active');
+            });
+
+            sidebarOverlay.addEventListener('click', () => {
+                sidebar.classList.remove('active');
+                sidebarOverlay.classList.remove('active');
+            });
+
+
+            // Initial load: render channels and load the first stream
+            renderChannels();
+            loadStream('tech-summit'); // Load the first stream by default
+        });
+    </script>
+</body>
+</html>

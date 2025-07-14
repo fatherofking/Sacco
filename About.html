@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Alamsco Services</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <style>
+        /* Base Styles & Variables (Consistent with previous pages) */
+        :root {
+            --primary-color: #0056b3; /* Darker blue for primary actions/branding */
+            --secondary-color: #007bff; /* Lighter blue for accents */
+            --text-color: #333;
+            --light-text-color: #f4f7f6;
+            --background-light: #f8faff;
+            --background-card: #ffffff;
+            --shadow-light: rgba(0, 0, 0, 0.08);
+            --shadow-hover: rgba(0, 0, 0, 0.15);
+            --border-radius-main: 12px;
+            --border-radius-card: 10px;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-light);
+            color: var(--text-color);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header (Consistent with previous pages) */
+        header {
+            background-color: var(--background-card);
+            padding: 15px 0;
+            box-shadow: 0 2px 8px var(--shadow-light);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo-name {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.2em;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            text-decoration: none;
+        }
+
+        /* Hero Section for About Us Page */
+        .hero {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: var(--light-text-color);
+            text-align: center;
+            padding: 80px 20px;
+            border-radius: var(--border-radius-main);
+            margin-bottom: 60px;
+            margin-top: 20px;
+            box-shadow: 0 8px 20px var(--shadow-hover);
+        }
+
+        .hero h1 {
+            font-size: 3.2em;
+            margin-bottom: 15px;
+            font-weight: 700;
+            line-height: 1.2;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero p {
+            font-size: 1.2em;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.95;
+        }
+
+        /* Generic Section Styling */
+        .about-section {
+            background-color: var(--background-card);
+            padding: 60px 40px;
+            margin-bottom: 40px;
+            border-radius: var(--border-radius-main);
+            box-shadow: 0 6px 15px var(--shadow-light);
+        }
+
+        .about-section h2 {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .about-section h2::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background-color: var(--secondary-color);
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+
+        .about-section p {
+            font-size: 1.1em;
+            max-width: 800px;
+            margin: 0 auto 20px auto;
+            text-align: justify; /* Justify text for a cleaner block */
+            color: #555;
+        }
+
+        /* Mission & Vision / Our Values */
+        .mv-values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .mv-card {
+            background-color: var(--background-light);
+            padding: 30px;
+            border-radius: var(--border-radius-card);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .mv-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .mv-card i {
+            font-size: 3em;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+        }
+
+        .mv-card h3 {
+            font-size: 1.5em;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .mv-card p {
+            font-size: 0.95em;
+            color: #666;
+            text-align: center;
+        }
+
+        /* Our Team Section */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+            justify-content: center; /* Center cards if not full row */
+        }
+
+        .team-member-card {
+            background-color: var(--background-card);
+            border-radius: var(--border-radius-card);
+            box-shadow: 0 6px 15px var(--shadow-light);
+            overflow: hidden;
+            text-align: center;
+            padding: 25px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .team-member-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px var(--shadow-hover);
+        }
+
+        .team-member-card img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 4px solid var(--secondary-color);
+            box-shadow: 0 0 0 5px rgba(0, 123, 255, 0.2); /* Outer glow */
+            transition: transform 0.3s ease;
+        }
+
+        .team-member-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .team-member-card h3 {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .team-member-card p.role {
+            font-size: 0.95em;
+            color: #777;
+            margin-bottom: 15px;
+        }
+
+        .team-member-card .social-icons a {
+            color: #888;
+            font-size: 1.2em;
+            margin: 0 8px;
+            transition: color 0.3s ease;
+        }
+
+        .team-member-card .social-icons a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Call to Action Section */
+        .cta-section {
+            background-color: var(--primary-color);
+            color: var(--light-text-color);
+            text-align: center;
+            padding: 60px 20px;
+            margin-top: 60px;
+            border-radius: var(--border-radius-main);
+            box-shadow: 0 8px 20px var(--shadow-hover);
+        }
+
+        .cta-section h2 {
+            font-size: 2.8em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--light-text-color); /* Ensure heading is white */
+        }
+
+        .cta-section p {
+            font-size: 1.2em;
+            max-width: 800px;
+            margin: 0 auto 30px auto;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--secondary-color); /* Use secondary for CTA button */
+            color: var(--light-text-color);
+            padding: 14px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .cta-button:hover {
+            background-color: #0069d9; /* Slightly darker blue on hover */
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Footer (Consistent with previous pages) */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            background-color: var(--primary-color);
+            color: var(--light-text-color);
+            margin-top: 80px;
+            border-top-left-radius: var(--border-radius-main);
+            border-top-right-radius: var(--border-radius-main);
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .logo-name {
+                font-size: 1.8em;
+            }
+            .hero {
+                padding: 60px 20px;
+            }
+            .hero h1 {
+                font-size: 2.8em;
+            }
+            .hero p {
+                font-size: 1em;
+            }
+            .about-section {
+                padding: 40px 25px;
+            }
+            .about-section h2 {
+                font-size: 2em;
+                margin-bottom: 30px;
+            }
+            .about-section p {
+                font-size: 1em;
+            }
+            .mv-values-grid, .team-grid {
+                grid-template-columns: 1fr; /* Stack on small screens */
+                gap: 25px;
+            }
+            .cta-section {
+                padding: 40px 20px;
+            }
+            .cta-section h2 {
+                font-size: 2.2em;
+            }
+            .cta-section p {
+                font-size: 1em;
+            }
+            .cta-button {
+                padding: 12px 25px;
+                font-size: 1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo-name {
+                font-size: 1.5em;
+            }
+            .hero {
+                padding: 40px 15px;
+                margin-top: 10px;
+            }
+            .hero h1 {
+                font-size: 2.2em;
+            }
+            .hero p {
+                font-size: 0.9em;
+            }
+            .container {
+                padding: 15px;
+            }
+            .about-section {
+                padding: 30px 15px;
+            }
+            .about-section h2 {
+                font-size: 1.8em;
+                margin-bottom: 25px;
+            }
+            .mv-card h3 {
+                font-size: 1.3em;
+            }
+            .mv-card p {
+                font-size: 0.9em;
+            }
+            .team-member-card img {
+                width: 120px;
+                height: 120px;
+            }
+            .team-member-card h3 {
+                font-size: 1.2em;
+            }
+            .team-member-card p.role {
+                font-size: 0.85em;
+            }
+            .cta-section h2 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <a href="index.html" class="logo-name">Alamsco Services</a> </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>Crafting the Future, One Solution at a Time.</h1>
+                <p>Learn about Alamsco Services: our journey, our purpose, and the dedicated team driving innovation in Oko Erin and beyond.</p>
+            </div>
+        </section>
+
+        <section class="container about-section">
+            <h2>Our Story</h2>
+            <p>
+                Founded in 20XX in the heart of Oko Erin, Kwara, Alamsco Services began with a simple yet ambitious goal: to bridge the gap between complex technological challenges and accessible, effective solutions. What started as a small team of passionate innovators has grown into a leading technology partner, serving businesses and individuals across Nigeria.
+            </p>
+            <p>
+                Our journey has been marked by continuous learning, adaptation, and a relentless pursuit of excellence. From our early projects in custom software development to expanding into cloud solutions, data analytics, and cybersecurity, we've consistently pushed the boundaries, always prioritizing our clients' success.
+            </p>
+            <p>
+                We believe that technology, when harnessed thoughtfully, can be a powerful catalyst for growth and positive change. This belief is at the core of every service we offer and every client relationship we build.
+            </p>
+        </section>
+
+        <section class="container about-section">
+            <h2>Our Purpose & Principles</h2>
+            <div class="mv-values-grid">
+                <div class="mv-card">
+                    <i class="fas fa-bullseye"></i>
+                    <h3>Our Mission</h3>
+                    <p>To empower businesses and communities with cutting-edge, reliable, and sustainable technological solutions that foster innovation and drive measurable growth.</p>
+                </div>
+                <div class="mv-card">
+                    <i class="fas fa-lightbulb"></i>
+                    <h3>Our Vision</h3>
+                    <p>To be the most trusted and sought-after technology partner in Nigeria and West Africa, recognized for our pioneering spirit, client-centric approach, and unwavering commitment to quality.</p>
+                </div>
+                <div class="mv-card">
+                    <i class="fas fa-handshake"></i>
+                    <h3>Our Values</h3>
+                    <ul>
+                        <p><strong>Integrity:</strong> Honesty and transparency in all interactions.</p>
+                        <p><strong>Innovation:</strong> Constantly seeking new and better ways.</p>
+                        <p><strong>Excellence:</strong> Delivering quality that exceeds expectations.</p>
+                        <p><strong>Client Focus:</strong> Building strong, lasting partnerships.</p>
+                        <p><strong>Collaboration:</strong> Working together for shared success.</p>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="container about-section">
+            <h2>What Makes Us Different</h2>
+            <p>
+                At Alamsco Services, we don't just provide technology; we build partnerships. Our unique blend of deep technical expertise, a profound understanding of local market dynamics in Kwara and Nigeria, and a commitment to personalized service sets us apart. We pride ourselves on our ability to translate complex technical requirements into practical, user-friendly solutions that truly solve problems and create value.
+            </p>
+            <p>
+                Our dedication to continuous learning ensures we stay ahead of industry trends, bringing you the most current and effective strategies. From initial consultation to ongoing support, we are your reliable guide in the ever-evolving digital landscape.
+            </p>
+        </section>
+
+        <section class="container about-section">
+            <h2>Meet Our Dedicated Team</h2>
+            <p>Behind every successful project at Alamsco Services is a team of passionate, skilled, and dedicated professionals.</p>
+            <div class="team-grid">
+                <div class="team-member-card">
+                    <img src="https://via.placeholder.com/150/007bff/FFFFFF?text=CEO" alt="Team Member Name">
+                    <h3>Adebayo Olawale</h3>
+                    <p class="role">Chief Executive Officer</p>
+                    <div class="social-icons">
+                        <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="team-member-card">
+                    <img src="https://via.placeholder.com/150/0056b3/FFFFFF?text=CTO" alt="Team Member Name">
+                    <h3>Fatima Abubakar</h3>
+                    <p class="role">Chief Technology Officer</p>
+                    <div class="social-icons">
+                        <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                <div class="team-member-card">
+                    <img src="https://via.placeholder.com/150/28a745/FFFFFF?text=Lead+Dev" alt="Team Member Name">
+                    <h3>Chukwudi Nnamdi</h3>
+                    <p class="role">Lead Software Developer</p>
+                    <div class="social-icons">
+                        <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                <div class="team-member-card">
+                    <img src="https://via.placeholder.com/150/ffc107/FFFFFF?text=Head+Mkt" alt="Team Member Name">
+                    <h3>Zainab Bello</h3>
+                    <p class="role">Head of Marketing</p>
+                    <div class="social-icons">
+                        <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="container cta-section">
+            <h2>Ready to Transform Your Business?</h2>
+            <p>We're passionate about bringing your vision to life. Let's start a conversation about your next big project.</p>
+            <a href="contact.html" class="cta-button">Get in Touch Today</a>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© 2025 Alamsco Services. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

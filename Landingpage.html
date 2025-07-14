@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alamsco</title>
+    <style>
+        /* --- CSS Styling --- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e0f2f7; /* Light blue background */
+            color: #333;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Ensure body takes full viewport height */
+        }
+
+        /* Header Styles */
+        .header {
+            background-color: #2196f3; /* Darker blue for header */
+            color: white;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-title {
+            font-size: 2.2em;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Dropdown Navigation */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-button {
+            background-color: #ff9800; /* Orange button */
+            color: white;
+            padding: 12px 25px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .dropdown-button:hover {
+            background-color: #fb8c00;
+            transform: translateY(-2px);
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 180px;
+            box-shadow: 0 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 8px;
+            right: 0; /* Align dropdown to the right of the button */
+            margin-top: 10px;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .dropdown-content a {
+            color: #333;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.2s ease;
+            border-radius: 8px;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #e0e0e0;
+            color: #2196f3;
+        }
+
+        .dropdown.active .dropdown-content {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Main Content and Section Styles */
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            flex-grow: 1; /* Allow main content to grow and push footer down */
+        }
+
+        .section-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            padding: 20px 0;
+        }
+
+        .section-item {
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .section-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .section-image-link {
+            display: block; /* Make the entire image clickable */
+            line-height: 0; /* Remove extra space below image */
+        }
+
+        .section-image {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .section-image-link:hover .section-image {
+            transform: scale(1.03); /* Slight zoom on image hover */
+        }
+
+        .section-content {
+            padding: 25px;
+            position: relative;
+        }
+
+        .section-name {
+            font-size: 2em;
+            font-weight: bold;
+            color: #3f51b5; /* Dark blue for section names */
+            margin-bottom: 15px;
+            cursor: pointer; /* Indicate interactivity */
+        }
+
+        .section-description {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            padding: 0 15px;
+            text-align: left;
+            font-size: 0.95em;
+            color: #555;
+            background-color: #f0f8ff; /* Very light blue for description background */
+            border-radius: 10px;
+            margin-top: 15px;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+            transition: max-height 0.6s ease-out, opacity 0.6s ease-out, padding 0.6s ease-out;
+        }
+
+        .section-name:hover + .section-description,
+        .section-description:hover {
+            max-height: 300px; /* Ample height for description expansion */
+            opacity: 1;
+            padding: 15px; /* Show padding when expanded */
+        }
+
+        /* Footer Styles */
+        .footer {
+            background-color: #1976d2; /* A slightly darker blue for the footer */
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            margin-top: 50px; /* Space above footer */
+            box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .newsletter-form {
+            max-width: 500px;
+            margin: 20px auto 0 auto;
+            display: flex;
+            flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .newsletter-form input[type="text"],
+        .newsletter-form input[type="email"] {
+            padding: 12px 18px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1em;
+            width: calc(50% - 15px); /* Half width minus gap */
+            box-sizing: border-box; /* Include padding in width */
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #333;
+            outline: none;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .newsletter-form input[type="text"]:focus,
+        .newsletter-form input[type="email"]:focus {
+            box-shadow: 0 0 0 3px #ff9800; /* Orange glow on focus */
+        }
+
+        .newsletter-form button {
+            background-color: #ff9800; /* Orange subscribe button */
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-weight: bold;
+            width: auto; /* Allow button to size itself */
+        }
+
+        .newsletter-form button:hover {
+            background-color: #fb8c00;
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .header {
+                padding: 15px 20px;
+                flex-direction: column;
+                text-align: center;
+            }
+            .header-title {
+                margin-bottom: 15px;
+                font-size: 1.8em;
+            }
+            .dropdown {
+                width: 100%;
+                text-align: center;
+            }
+            .dropdown-button {
+                width: 80%; /* Make button wider on small screens */
+                margin-bottom: 10px;
+            }
+            .dropdown-content {
+                position: static; /* Position normally within flow */
+                width: 80%;
+                margin: 10px auto 0 auto;
+                box-shadow: none; /* Remove shadow if not needed in static pos */
+            }
+            .section-grid {
+                padding: 10px;
+                gap: 30px;
+            }
+            .section-name {
+                font-size: 1.8em;
+            }
+            .newsletter-form {
+                flex-direction: column; /* Stack inputs and button vertically */
+                width: 90%;
+            }
+            .newsletter-form input[type="text"],
+            .newsletter-form input[type="email"] {
+                width: 100%; /* Full width for inputs */
+            }
+            .newsletter-form button {
+                width: 100%; /* Full width for button */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-title {
+                font-size: 1.5em;
+            }
+            .dropdown-button {
+                padding: 10px 20px;
+                font-size: 1em;
+            }
+            .section-grid {
+                grid-template-columns: 1fr; /* Single column on very small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-title">Alamsco</div>
+        <div class="dropdown">
+            <button class="dropdown-button" id="dropdownBtn">Menu</button>
+            <div class="dropdown-content" id="dropdownContent">
+                <a href="signup.html">Sign-up</a>
+                <a href="login.html">Login</a>
+                <a href="customer.html">Customer Service</a>
+                <a href="policy.html">Policy</a>
+                <a href="complaint.html">Complaint</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="section-grid">
+            <div class="section-item">
+                <a href="product-page-1.html" class="section-image-link">
+                    <img src="https://via.placeholder.com/400x280?text=Explore+Solutions" alt="Explore Solutions" class="section-image">
+                </a>
+                <div class="section-content">
+                    <h2 class="section-name">Solutions</h2>
+                    <div class="section-description">
+                        <p>Discover innovative solutions tailored to your needs. From advanced software to streamlined workflows, we provide tools that empower individuals and businesses to thrive in a rapidly evolving digital landscape. Explore how our cutting-edge technology can transform your operations and boost your productivity. We focus on creating user-friendly and highly efficient systems.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-item">
+                <a href="product-page-2.html" class="section-image-link">
+                    <img src="https://via.placeholder.com/400x280?text=Our+Services" alt="Our Services" class="section-image">
+                </a>
+                <div class="section-content">
+                    <h2 class="section-name">Services</h2>
+                    <div class="section-description">
+                        <p>Our comprehensive range of services covers everything from initial consultation and strategic planning to implementation and ongoing support. We are dedicated to delivering exceptional value, ensuring your projects are completed on time and within budget, with a focus on quality and customer satisfaction. Let us handle the complexities so you can focus on your core business.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-item">
+                <a href="product-page-3.html" class="section-image-link">
+                    <img src="https://via.placeholder.com/400x280?text=About+Us" alt="About Us" class="section-image">
+                </a>
+                <div class="section-content">
+                    <h2 class="section-name">About Us</h2>
+                    <div class="section-description">
+                        <p>Learn more about our mission, vision, and the passionate team behind Devika. We are a collective of experts committed to innovation, integrity, and excellence. Our journey began with a simple idea: to make advanced technology accessible and beneficial for everyone. We believe in building lasting relationships based on trust and mutual success.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-item">
+                <a href="product-page-4.html" class="section-image-link">
+                    <img src="https://via.placeholder.com/400x280?text=Contact+Us" alt="Contact Us" class="section-image">
+                </a>
+                <div class="section-content">
+                    <h2 class="section-name">Contact</h2>
+                    <div class="section-description">
+                        <p>Have a question or need assistance? Our support team is here to help! Reach out to us via email, phone, or live chat. We're dedicated to providing timely and effective responses to all inquiries. Your feedback is important to us, and we look forward to connecting with you and addressing all your concerns promptly.</p>
+                    </div>
+                </div>
+            </div>
+            </section>
+    </main>
+
+    <footer class="footer">
+        <h3>Join Our Newsletter!</h3>
+        <p>Stay updated with our latest news, exclusive offers, and insights.</p>
+        <form class="newsletter-form">
+            <input type="text" placeholder="Your Name" required>
+            <input type="email" placeholder="Your Email Address" required>
+            <button type="submit">Subscribe</button>
+        </form>
+        <p style="margin-top: 30px; font-size: 0.9em; opacity: 0.8;">&copy; 2025 Devika. All rights reserved.</p>
+    </footer>
+
+    <script>
+        /* --- JavaScript Functionality --- */
+        document.addEventListener('DOMContentLoaded', () => {
+            // Dropdown Menu Toggle
+            const dropdownBtn = document.getElementById('dropdownBtn');
+            const dropdownContent = document.getElementById('dropdownContent');
+            const dropdown = document.querySelector('.dropdown');
+
+            dropdownBtn.addEventListener('click', () => {
+                dropdown.classList.toggle('active');
+            });
+
+            // Close dropdown if clicked outside
+            window.addEventListener('click', (event) => {
+                if (!dropdownBtn.contains(event.target) && !dropdownContent.contains(event.target)) {
+                    dropdown.classList.remove('active');
+                }
+            });
+
+            // Note on Newsletter Form:
+            // This is a front-end HTML form. For it to actually send data (e.g., to an email list service),
+            // you would need a backend script or integrate with a third-party service (like Mailchimp, SendGrid, etc.).
+            // The `form` tag with `type="submit"` button will by default try to submit the page.
+            // You might add JavaScript here to handle the submission via AJAX if you're using an API.
+            const newsletterForm = document.querySelector('.newsletter-form');
+            newsletterForm.addEventListener('submit', (event) => {
+                event.preventDefault(); // Prevent default form submission
+                alert('Thank you for subscribing to our newsletter! (This is a demo)');
+                // In a real application, you'd send this data to your server/API
+                // const name = event.target[0].value;
+                // const email = event.target[1].value;
+                // console.log('Subscribing:', { name, email });
+                // Add fetch() API call here to send data to your backend
+                event.target.reset(); // Clear the form fields
+            });
+        });
+    </script>
+</body>
+</html>

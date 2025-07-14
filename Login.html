@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login Page</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom right, #c7d2fe, #dbeafe);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .login-container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .login-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    .error {
+      color: red;
+      font-size: 0.85rem;
+      margin-top: 4px;
+    }
+
+    .success-message {
+      text-align: center;
+      color: green;
+      margin-top: 10px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #6366f1;
+      color: white;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background: #4f46e5;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h2>Login</h2>
+    <form id="loginForm" novalidate>
+      <div class="form-group">
+        <label for="username">Email or Username</label>
+        <input id="username" name="username" />
+        <div class="error" id="error-username"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input id="password" type="password" name="password" />
+        <div class="error" id="error-password"></div>
+      </div>
+
+      <button type="submit">Login</button>
+      <div class="success-message" id="successMessage"></div>
+    </form>
+  </div>
+
+  <script>
+    const loginForm = document.getElementById('loginForm');
+    const successMessage = document.getElementById('successMessage');
+
+    loginForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const username = loginForm.username.value.trim();
+      const password = loginForm.password.value.trim();
+
+      let valid = true;
+
+      if (!username) {
+        document.getElementById('error-username').textContent = "Username is required";
+        valid = false;
+      } else {
+        document.getElementById('error-username').textContent = "";
+      }
+
+      if (!password) {
+        document.getElementById('error-password').textContent = "Password is required";
+        valid = false;
+      } else {
+        document.getElementById('error-password').textContent = "";
+      }
+
+      if (valid) {
+        successMessage.textContent = "Login successful!";
+        console.log("Login data:", { username, password });
+        loginForm.reset();
+      } else {
+        successMessage.textContent = "";
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help & Customer Service - Your Store</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amazon+Ember:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Global CSS (duplicated for single file) */
+        body {
+            font-family: 'Amazon Ember', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            color: #111;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            scroll-behavior: smooth;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        .header {
+            background-color: #fff;
+            padding: 10px 20px;
+            border-bottom: 1px solid #e7e7e7;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 2px rgba(0,0,0,.08);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .header .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007185;
+            text-decoration: none;
+        }
+        .header .nav-links a {
+            color: #007185;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 15px;
+        }
+        .header .nav-links a:hover {
+            text-decoration: underline;
+        }
+        .header .security-info {
+            display: flex;
+            align-items: center;
+            color: #565959;
+            font-size: 14px;
+        }
+        .header .security-info .lock-icon {
+            margin-right: 5px;
+            font-size: 16px;
+        }
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 10px 15px;
+            }
+            .header .nav-links {
+                margin-top: 10px;
+                width: 100%;
+                display: flex;
+                justify-content: space-around;
+            }
+            .header .nav-links a {
+                margin: 0 5px;
+            }
+            .header .security-info {
+                margin-top: 10px;
+                align-self: flex-end;
+            }
+        }
+
+        .section-card {
+            background-color: #fff;
+            border: 1px solid #e7e7e7;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 2px rgba(0,0,0,.08);
+        }
+        .section-card h1, .section-card h2 {
+            font-size: 24px;
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #0f1111;
+        }
+        .section-card h2 {
+            font-size: 20px;
+        }
+
+        .btn-primary {
+            background-color: #FFD814;
+            color: #0F1111;
+            border: 1px solid #FCD200;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(242, 213, 76, 0.5);
+            transition: all 0.2s ease;
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
+        }
+        .btn-primary:hover {
+            background-color: #F7CA00;
+            border-color: #F2C200;
+        }
+        .btn-secondary {
+            background-color: #f7fafa;
+            color: #0f1111;
+            border: 1px solid #d5d9d9;
+            border-radius: 8px;
+            padding: 8px 15px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
+        }
+        .btn-secondary:hover {
+            background-color: #eff3f3;
+            border-color: #c8cccb;
+        }
+
+        .text-link {
+            color: #007185;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .text-link:hover {
+            text-decoration: underline;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 13px;
+            color: #565959;
+            border-top: 1px solid #e7e7e7;
+            margin-top: 40px;
+            background-color: #fff;
+        }
+        .footer p {
+            margin: 5px 0;
+        }
+        .footer a {
+            color: #007185;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .total-price {
+            font-size: 22px;
+            font-weight: bold;
+            color: #B12704;
+        }
+        .price-tag {
+            color: #B12704;
+            font-weight: bold;
+        }
+
+        /* Page specific styles for help.html */
+        .help-center-layout {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .help-sidebar {
+            flex: 0 0 250px;
+            background-color: #fff;
+            border: 1px solid #e7e7e7;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 1px 2px rgba(0,0,0,.08);
+            align-self: flex-start;
+        }
+        .help-sidebar h3 {
+            font-size: 18px;
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #0f1111;
+        }
+        .help-sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .help-sidebar ul li {
+            margin-bottom: 5px;
+        }
+        .help-sidebar ul li a {
+            display: block;
+            padding: 8px 0;
+            text-decoration: none;
+            color: #007185;
+        }
+        .help-sidebar ul li a:hover {
+            text-decoration: underline;
+        }
+        .help-content-area {
+            flex-grow: 1;
+            min-width: 300px;
+        }
+        .search-help-bar {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        .search-help-bar input {
+            flex-grow: 1;
+            border-radius: 4px 0 0 4px;
+            border: 1px solid #d5d9d9;
+            border-right: none;
+            padding: 10px;
+            font-size: 16px;
+        }
+        .search-help-bar button {
+            border-radius: 0 4px 4px 0;
+            background-color: #FEBD69;
+            border: 1px solid #FEBD69;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #111;
+        }
+        .search-help-bar button:hover {
+            background-color: #F7B75F;
+        }
+        .help-topic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .help-topic-card {
+            background-color: #fff;
+            border: 1px solid #e7e7e7;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 1px 2px rgba(0,0,0,.08);
+            text-decoration: none;
+            color: #111;
+            display: block;
+            transition: box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+        .help-topic-card:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,.1);
+            border-color: #c8cccb;
+        }
+        .help-topic-card h3 {
+            font-size: 18px;
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #007185;
+        }
+        .help-topic-card p {
+            font-size: 14px;
+            color: #565959;
+            margin: 0;
+        }
+        .contact-options-section {
+            margin-top: 30px;
+            border-top: 1px solid #e7e7e7;
+            padding-top: 20px;
+        }
+        .contact-options-section h2 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        .contact-methods {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .contact-method-card {
+            flex: 1 1 280px;
+            background-color: #fff;
+            border: 1px solid #e7e7e7;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 1px 2px rgba(0,0,0,.08);
+            text-align: center;
+        }
+        .contact-method-card .icon {
+            font-size: 40px;
+            color: #007185;
+            margin-bottom: 10px;
+        }
+        .contact-method-card h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .contact-method-card p {
+            font-size: 14px;
+            color: #565959;
+            margin-bottom: 15px;
+        }
+        .contact-method-card .btn-primary, .contact-method-card .btn-secondary {
+            width: auto;
+            padding: 8px 15px;
+        }
+
+        @media (max-width: 768px) {
+            .help-center-layout {
+                flex-direction: column;
+            }
+            .help-sidebar {
+                position: static;
+                width: 100%;
+                margin-bottom: 20px;
+            }
+            .help-sidebar ul {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-around;
+            }
+            .help-sidebar ul li {
+                margin: 5px;
+            }
+            .help-sidebar ul li a {
+                padding: 8px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="index.html" class="logo">YourStore</a>
+        <nav class="nav-links">
+            <a href="account.html">Your Account</a>
+            <a href="cart.html">Cart</a>
+        </nav>
+        <div class="security-info">
+            <span class="lock-icon">&#128274;</span> Customer Service
+        </div>
+    </header>
+
+    <div class="container help-center-layout">
+        <div class="help-sidebar">
+            <h3>Help Topics</h3>
+            <ul>
+                <li><a href="#orders">Your Orders</a></li>
+                <li><a href="#returns">Returns & Refunds</a></li>
+                <li><a href="#shipping">Shipping & Delivery</a></li>
+                <li><a href="#payment">Payment Methods</a></li>
+                <li><a href="#account">Account Settings</a></li>
+                <li><a href="#digital">Digital Services</a></li>
+                <li><a href="#contact">Contact Us</a></li>
+            </ul>
+        </div>
+        <div class="help-content-area">
+            <div class="section-card">
+                <h1>Help & Customer Service</h1>
+                <div class="search-help-bar">
+                    <input type="text" placeholder="Search our help library">
+                    <button>Search</button>
+                </div>
+            </div>
+
+            <div class="section-card help-topic-grid">
+                <a href="#" class="help-topic-card" id="orders">
+                    <h3>Your Orders</h3>
+                    <p>Track packages, manage orders, download invoices</p>
+                </a>
+                <a href="#" class="help-topic-card" id="returns">
+                    <h3>Returns & Refunds</h3>
+                    <p>Learn about returns, refunds, and exchanges</p>
+                </a>
+                <a href="#" class="help-topic-card" id="shipping">
+                    <h3>Shipping & Delivery</h3>
+                    <p>Shipping rates, delivery times, and international shipping</p>
+                </a>
+                <a href="#" class="help-topic-card" id="payment">
+                    <h3>Payment Methods</h3>
+                    <p>Accepted payment methods, billing, and security</p>
+                </a>
+                <a href="#" class="help-topic-card" id="account">
+                    <h3>Account Settings</h3>
+                    <p>Update personal info, password, address, and payment options</p>
+                </a>
+                <a href="#" class="help-topic-card" id="digital">
+                    <h3>Digital Services & Content</h3>
+                    <p>Help with eBooks, music, movies, and apps</p>
+                </a>
+            </div>
+
+            <div class="section-card contact-options-section" id="contact">
+                <h2>Still need help?</h2>
+                <p style="margin-bottom: 20px; font-size: 16px; color: #565959;">
+                    Choose a topic to contact us or browse our full list of help topics.
+                </p>
+                <div class="contact-methods">
+                    <div class="contact-method-card">
+                        <div class="icon">&#128222;</div>
+                        <h3>Call Us</h3>
+                        <p>Our customer service representatives are available 24/7.</p>
+                        <a href="tel:+2348012345678" class="btn-primary">Call Now</a>
+                    </div>
+                    <div class="contact-method-card">
+                        <div class="icon">&#128172;</div>
+                        <h3>Start a Chat</h3>
+                        <p>Chat with a customer service associate instantly.</p>
+                        <a href="#" class="btn-primary">Start Chat</a>
+                    </div>
+                    <div class="contact-method-card">
+                        <div class="icon">&#128231;</div>
+                        <h3>Send an Email</h3>
+                        <p>Describe your issue and we'll get back to you within 24 hours.</p>
+                        <a href="mailto:support@yourstore.com" class="btn-secondary">Send Email</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 YourStore.com</p>
+        <p>
+            <a href="#">Conditions of Use</a>
+            <a href="#">Privacy Notice</a>
+            <a href="help.html">Help</a>
+        </p>
+    </footer>
+</body>
+</html>

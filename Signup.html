@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Signup Page</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom right, #dbeafe, #c7d2fe);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .signup-container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .signup-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    .error {
+      color: red;
+      font-size: 0.85rem;
+      margin-top: 4px;
+    }
+
+    .success-message {
+      text-align: center;
+      color: green;
+      margin-top: 10px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #6366f1;
+      color: white;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background: #4f46e5;
+    }
+  </style>
+</head>
+<body>
+  <div class="signup-container">
+    <h2>Sign Up</h2>
+    <form id="signupForm" novalidate>
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input id="name" name="name" />
+        <div class="error" id="error-name"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input id="email" type="email" name="email" />
+        <div class="error" id="error-email"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="nickname">Nickname</label>
+        <input id="nickname" name="nickname" />
+        <div class="error" id="error-nickname"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <input id="phone" name="phone" placeholder="(123) 456-7890" />
+        <div class="error" id="error-phone"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input id="password" type="password" name="password" />
+        <div class="error" id="error-password"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input id="confirmPassword" type="password" name="confirmPassword" />
+        <div class="error" id="error-confirmPassword"></div>
+      </div>
+
+      <button type="submit">Create Account</button>
+      <div class="success-message" id="successMessage"></div>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('signupForm');
+    const successMessage = document.getElementById('successMessage');
+
+    form.addEventListener('input', (e) => {
+      if (e.target.name === 'phone') {
+        const val = e.target.value.replace(/\\D/g, '');
+        const match = val.match(/(\\d{0,3})(\\d{0,3})(\\d{0,4})/);
+        e.target.value = !match ? '' :
+          [match[1] ? `(${match[1]}` : '', match[2] ? `) ${match[2]}` : '', match[3] ? `-${match[3]}` : ''].join('');
+      }
+    });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      let isValid = true;
+      const fields = ['name', 'email', 'nickname', 'phone', 'password', 'confirmPassword'];
+      const errors = {};
+
+      fields.forEach(field => {
+        const value = form[field].value.trim();
+        if (!value) {
+          errors[field] = `${field === 'confirmPassword' ? 'Confirm password' : field.charAt(0).toUpperCase() + field.slice(1)} is required`;
+          isValid = false;
+        } else {
+          errors[field] = '';
+        }
+      });
+
+      if (form.password.value !== form.confirmPassword.value) {
+        errors.confirmPassword = 'Passwords do not match';
+        isValid = false;
+      }
+
+      fields.forEach(field => {
+        document.getElementById(`error-${field}`).textContent = errors[field] || '';
+      });
+
+      if (isValid) {
+        successMessage.textContent = 'Account created successfully!';
+        console.log('Form data:', Object.fromEntries(new FormData(form)));
+        form.reset();
+      } else {
+        successMessage.textContent = '';
+      }
+    });
+  </script>
+</body>
+</html>

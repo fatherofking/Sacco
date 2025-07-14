@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Alamsco</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* --- Variables and Base Styles --- */
+    :root {
+      --primary-color: #6a0dad; /* A vibrant purple */
+      --primary-hover: #5a0daf; /* Slightly darker purple for hover */
+      --accent-color: #ffd700; /* Gold for highlights/accents */
+      --text-color: #333;
+      --light-text: #777;
+      --dark-text: #1a1a1a;
+      --light-bg: #f0f2f5; /* Soft light background */
+      --card-bg: #ffffff;
+      --border-color: #e0e0e0;
+      --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.08);
+      --shadow-medium: 0 4px 12px rgba(0, 0, 0, 0.1);
+      --transition-speed: 0.3s ease;
+      --border-radius-sm: 8px;
+      --border-radius-md: 12px;
+      --border-radius-lg: 25px; /* Pill shape */
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background-color: var(--light-bg);
+      color: var(--text-color);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    button {
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: all var(--transition-speed); /* Global button transition */
+    }
+
+    button:focus-visible {
+        outline: 2px solid var(--primary-color);
+        outline-offset: 2px;
+        border-radius: var(--border-radius-sm);
+    }
+
+    /* --- Header --- */
+    header {
+      padding: 15px 20px;
+      background: var(--card-bg);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-color);
+      box-shadow: var(--shadow-light);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      width: 100%;
+    }
+
+    .profile-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      padding: 5px 10px;
+      border-radius: var(--border-radius-lg);
+      transition: background-color var(--transition-speed);
+    }
+
+    .profile-info:hover {
+      background-color: var(--light-bg);
+    }
+
+    .profile-info img {
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      object-fit: cover;
+      border: 2px solid var(--primary-color);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .profile-info span {
+      font-weight: 600;
+      color: var(--dark-text);
+      font-size: 1.1em;
+      white-space: nowrap;
+    }
+
+    .post-btn {
+      background: var(--primary-color);
+      color: white;
+      padding: 10px 20px;
+      border-radius: var(--border-radius-lg);
+      font-size: 1em;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background-color var(--transition-speed), transform 0.15s ease-out, box-shadow 0.15s ease-out;
+      box-shadow: var(--shadow-light);
+    }
+
+    .post-btn:hover {
+      background-color: var(--primary-hover);
+      transform: translateY(-2px);
+    }
+
+    .post-btn:active {
+      transform: translateY(0);
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    /* --- Main Content Area --- */
+    main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .feed {
+      width: 100%;
+      max-width: 650px;
+      display: grid;
+      gap: 25px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--border-radius-md);
+      box-shadow: var(--shadow-medium);
+      padding: 20px;
+      transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+      overflow: hidden; /* Ensure video corners are rounded properly */
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .card-header img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--accent-color);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .card-header .user-details {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-header .user-details strong {
+      font-weight: 700;
+      color: var(--primary-color);
+      font-size: 1.15em;
+    }
+
+    .card-header .user-details span {
+      font-size: 0.9em;
+      color: var(--light-text);
+      margin-top: 2px;
+    }
+
+    .card p {
+      font-size: 1.05em;
+      color: var(--dark-text);
+      margin-bottom: 20px;
+      word-wrap: break-word;
+    }
+
+    video {
+      width: 100%;
+      max-height: 450px;
+      border-radius: var(--border-radius-sm);
+      object-fit: cover;
+      background-color: #000;
+      margin-bottom: 15px;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 20px;
+      padding-top: 15px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .actions button {
+      color: var(--light-text);
+      font-weight: 600;
+      font-size: 1em;
+      padding: 10px 15px;
+      border-radius: var(--border-radius-lg);
+      transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease-in-out;
+      display: flex;
+      align-items: center;
+      justify-content: center; /* Center icon when text is hidden */
+      width: 80px; /* Give a fixed width to prevent jumpiness on text reveal */
+      position: relative; /* For tooltip-like text */
+    }
+
+    /* Style for the action button text on hover (tooltip behavior) */
+    .actions button span {
+        opacity: 0;
+        visibility: hidden;
+        position: absolute;
+        bottom: -25px; /* Position below the button */
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: var(--dark-text);
+        color: white;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 0.8em;
+        white-space: nowrap;
+        transition: opacity 0.2s ease, visibility 0.2s ease;
+        pointer-events: none; /* Allows clicks on button underneath */
+        z-index: 10; /* Ensure tooltip is above other elements */
+    }
+
+    .actions button:hover span {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .actions button:hover {
+      background-color: var(--light-bg);
+      color: var(--primary-color);
+      transform: translateY(-1px);
+    }
+
+    .actions button:active {
+      transform: translateY(0);
+    }
+
+    .actions button i {
+      font-size: 1.2em;
+    }
+
+    /* Hide the text initially, only show icon */
+    .actions button > *:not(i) {
+        display: none;
+    }
+
+    /* --- Footer Navigation --- */
+    footer {
+      padding: 15px 0;
+      background: var(--card-bg);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      border-top: 1px solid var(--border-color);
+      box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
+      position: sticky;
+      bottom: 0;
+      width: 100%;
+      z-index: 1000;
+      min-height: 60px; /* Ensure enough height for content */
+    }
+
+    .footer-link {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .footer-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      color: var(--light-text);
+      font-size: 0.85em;
+      font-weight: 500;
+      padding: 5px 10px;
+      border-radius: var(--border-radius-sm);
+      transition: color var(--transition-speed), background-color var(--transition-speed);
+    }
+
+    .footer-btn i {
+      font-size: 1.4em;
+      transition: color var(--transition-speed);
+    }
+
+    .footer-btn.active,
+    .footer-btn:hover {
+      color: var(--primary-color);
+      background-color: var(--light-bg);
+    }
+
+    .footer-btn.active i {
+      color: var(--primary-color);
+    }
+
+    .footer-btn:focus-visible { /* Ensure focus state for footer links */
+        outline: 2px solid var(--primary-color);
+        outline-offset: 2px;
+        border-radius: var(--border-radius-sm);
+    }
+
+    /* --- Call an Expert FAB --- */
+    .call-expert-fab {
+      position: fixed;
+      bottom: 90px; /* Above the footer */
+      right: 20px;
+      background-color: var(--accent-color);
+      color: var(--dark-text); /* Dark text on gold */
+      width: 65px; /* Slightly larger */
+      height: 65px; /* Slightly larger */
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2em; /* Larger icon */
+      box-shadow: var(--shadow-medium);
+      cursor: pointer;
+      z-index: 1001;
+      transition: background-color var(--transition-speed), transform 0.1s ease-in-out;
+      border: 4px solid var(--card-bg); /* Adds a nice border */
+    }
+
+    .call-expert-fab:hover {
+      background-color: #e6c200; /* Slightly darker gold */
+      transform: translateY(-3px); /* More pronounced lift */
+    }
+
+    .call-expert-fab:active {
+      transform: translateY(0);
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    /* --- Responsive Adjustments --- */
+    @media (max-width: 600px) {
+      header {
+        padding: 10px 15px;
+      }
+
+      .profile-info span {
+        font-size: 1em;
+      }
+
+      .post-btn {
+        padding: 6px 15px;
+        font-size: 0.9em;
+      }
+
+      main {
+        padding: 15px;
+      }
+
+      .feed {
+        gap: 20px;
+      }
+
+      .card {
+        padding: 12px;
+      }
+
+      .card-header img {
+        width: 40px;
+        height: 40px;
+      }
+
+      .card-header .user-details strong {
+        font-size: 0.95em;
+      }
+
+      .actions button {
+        font-size: 0.9em;
+        padding: 6px 10px;
+        width: 60px; /* Adjust fixed width for smaller screens */
+      }
+
+      /* Adjust tooltip position for smaller buttons on smaller screens */
+      .actions button span {
+          bottom: 25px;
+      }
+
+      footer {
+        padding: 8px 0;
+      }
+
+      .footer-btn {
+        font-size: 0.7em;
+        padding: 6px 8px;
+      }
+
+      .footer-btn i {
+        font-size: 1.1em;
+      }
+
+      .call-expert-fab {
+        width: 55px; /* Slightly larger */
+        height: 55px; /* Slightly larger */
+        font-size: 1.7em;
+        bottom: 80px;
+        right: 15px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .profile-info span {
+        display: none;
+      }
+
+      .post-btn span {
+        display: none;
+      }
+      .post-btn {
+        padding: 10px 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+ <a href="Userp.html">  <div class="profile-info">
+      <img src="https://via.placeholder.com/40/6a0dad/FFFFFF?text=U" alt="User Avatar" />
+      <span >Hello, Jane!</span>
+    </div>
+ </a>
+ <a href="Post.html">  <button class="post-btn" onclick="alert('Ready to post!')"<a href="BBBpost.html">>
+      <i class="fas fa-plus-circle"></i> Create Post
+    </button>
+ </a>
+  </header>
+<
+
+  <main>
+    <div class="feed">
+      <div class="card">
+        <div class="card-header">
+          <img src="https://via.placeholder.com/50/4CAF50/FFFFFF?text=JD" alt="John Doe Avatar" />
+          <div class="user-details">
+            <strong>John Doe</strong>
+            <span>@johndoe • 2 hours ago</span>
+          </div>
+        </div>
+        <p>Just finished a great session on Machine Learning! The future is exciting. What's your favorite ML algorithm?</p>
+        <video controls>
+          <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <div class="actions">
+          <button onclick="alert('Liked post 1!')"><i class="fas fa-thumbs-up"></i><span>Like</span></button>
+          <button onclick="alert('Comment on post 1!')"><i class="fas fa-comment-dots"></i><span>Comment</span></button>
+          <button onclick="alert('Engaged with post 1!')"><i class="fas fa-gear"></i><span>Engage</span></button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <img src="https://via.placeholder.com/50/ffd700/000000?text=AS" alt="Alice Smith Avatar" />
+          <div class="user-details">
+            <strong>Alice Smith</strong>
+            <span>@alicesmith • 5 hours ago</span>
+          </div>
+        </div>
+        <p>Shared insights on effective communication strategies. Remember, clear communication is key to success in any field! #Communication #Guidance</p>
+        <video controls>
+          <source src="https://www.w3schools.com/html/movie.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <div class="actions">
+          <button onclick="alert('Liked post 2!')"><i class="fas fa-thumbs-up"></i><span>Like</span></button>
+          <button onclick="alert('Comment on post 2!')"><i class="fas fa-comment-dots"></i><span>Comment</span></button>
+          <button onclick="alert('Engaged with post 2!')"><i class="fas fa-gear"></i><span>Engage</span></button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <img src="https://via.placeholder.com/50/007bff/ffffff?text=C" alt="Author Profile Picture">
+          <div class="user-details">
+            <strong>Advisor Carol</strong>
+            <span>3 days ago</span>
+          </div>
+        </div>
+        <p>A friendly reminder about the upcoming career fair next month! Make sure to update your resumes and prepare some questions for potential employers. Networking is invaluable, even if you're not actively seeking a job right now. It's all about building connections!</p>
+        <div class="actions">
+          <button onclick="alert('Liked post 3!')"><i class="fas fa-thumbs-up"></i><span>Like</span></button>
+          <button onclick="alert('Comment on post 3!')"><i class="fas fa-comment-dots"></i><span>Comment</span></button>
+          <button onclick="alert('Engaged with post 3!')"><i class="fas fa-gear"></i><span>Engage</span></button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+<a href="Expert.html">  <div class="call-expert-fab" onclick="alert('Calling an expert! (This would open a modal/page for expert selection)')">
+    <i class="fas fa-phone"></i>
+  </div>
+</a>
+  <footer>
+    <a href="Homepage4.html" class="footer-link">
+      <div class="footer-btn">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+      </div>
+    </a>
+    <a href="Alamstore.html" class="footer-link">
+      <div class="footer-btn">
+        <i class="fas fa-search"></i>
+        <span>Alamstore</span>
+      </div>
+    </a>
+    <a href="Icreate.html" class="footer-link">
+      <div class="footer-btn">
+        <i class="fas fa-wrench"></i> <span>procreate</span>
+      </div>
+    </a>
+    <a href="Notification.html" class="footer-link">
+      <div class="footer-btn">
+        <i class="fas fa-bell"></i>
+        <span>Alerts</span>
+      </div>
+    </a>
+    <a href="#" class="footer-link">
+      <div class="footer-btn">
+        <i class="fas fa-user-circle"></i>
+        <span>live engagement</span>
+      </div>
+    </a>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - Guidance Connect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <style>
+        /* --- CSS Variables & Base Styles --- */
+        :root {
+            --primary-green: #4CAF50; /* A vibrant green */
+            --light-green: #e8f5e9; /* Very light green for background */
+            --dark-green: #388E3C; /* Darker green for accents */
+            --accent-gold: #ffd700; /* Gold for highlights/contrast */
+            --text-color: #333;
+            --light-text: #666;
+            --card-bg: #ffffff;
+            --border-color: #ddd;
+            --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --shadow-medium: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition-speed: 0.3s ease;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 20px; /* Add some padding around the whole page */
+            background-color: var(--light-green); /* Green background */
+            color: var(--text-color);
+            display: flex;
+            justify-content: center; /* Center the profile container */
+            min-height: 100vh; /* Ensure it takes full viewport height */
+            box-sizing: border-box; /* Include padding in element's total width and height */
+        }
+
+        .profile-container {
+            width: 100%;
+            max-width: 900px; /* Max width for larger screens */
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: var(--shadow-medium);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            animation: fadeIn 0.5s ease-out; /* Simple fade-in animation */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            color: var(--primary-green);
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--primary-green);
+            padding-bottom: 10px;
+            text-align: center;
+        }
+
+        button {
+            background-color: var(--primary-green);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: background-color var(--transition-speed), transform 0.1s ease-in-out;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        button:hover {
+            background-color: var(--dark-green);
+            transform: translateY(-1px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        input[type="text"],
+        input[type="email"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1em;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        /* --- Section A: User Information --- */
+        .user-info-section {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .user-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--accent-gold);
+            margin-bottom: 15px;
+        }
+
+        .user-name {
+            font-size: 2.2em;
+            font-weight: 700;
+            color: var(--primary-green);
+            margin-bottom: 5px;
+        }
+
+        .user-bio {
+            font-size: 1.1em;
+            color: var(--light-text);
+            max-width: 600px;
+            margin: 0 auto 20px;
+            line-height: 1.5;
+        }
+
+        .edit-profile-form {
+            text-align: left;
+            margin-top: 30px;
+            background-color: var(--light-green);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+            display: none; /* Hidden by default */
+        }
+
+        .edit-profile-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark-green);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        .form-actions button {
+            padding: 10px 25px;
+        }
+
+        .form-actions button.cancel {
+            background-color: #ccc;
+        }
+
+        .form-actions button.cancel:hover {
+            background-color: #bbb;
+        }
+
+        /* --- Tabs Navigation --- */
+        .profile-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid var(--border-color);
+            flex-wrap: wrap; /* Allow tabs to wrap on small screens */
+        }
+
+        .tab-button {
+            background-color: transparent;
+            color: var(--light-text);
+            border: none;
+            padding: 15px 25px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: color var(--transition-speed), border-bottom-color var(--transition-speed);
+            border-bottom: 2px solid transparent;
+            margin: 0 5px; /* Spacing between tabs */
+        }
+
+        .tab-button:hover, .tab-button.active {
+            color: var(--primary-green);
+            border-bottom-color: var(--primary-green);
+        }
+
+        /* --- Tab Content Sections --- */
+        .tab-content {
+            display: none; /* Hidden by default */
+            animation: fadeIn 0.4s ease-out;
+            padding: 0 10px; /* Inner padding for content */
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Awards, Unfinished, Finished Projects Styling */
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .item-card {
+            background-color: var(--light-green);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: var(--shadow-light);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: flex-start; /* Align text to start */
+        }
+
+        .item-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .item-card h3 {
+            color: var(--dark-green);
+            margin-top: 0;
+            margin-bottom: 5px;
+            font-size: 1.25em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .item-card p {
+            font-size: 0.95em;
+            color: var(--light-text);
+            margin-bottom: 0;
+        }
+
+        .item-card .icon {
+            font-size: 1.5em;
+            color: var(--primary-green);
+        }
+
+        /* Activity Graph Section */
+        .activity-graph-section {
+            text-align: center;
+        }
+
+        .graph-placeholder {
+            width: 100%;
+            height: 300px;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--light-text);
+            font-style: italic;
+            border: 2px dashed var(--border-color);
+            margin-top: 20px;
+            font-size: 1.1em;
+            background-image: url('data:image/svg+xml;utf8,<svg width="100%" height="100%" viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg"><path d="M10 140 L40 100 L70 120 L100 80 L130 110 L160 70 L190 90 L220 50 L250 80 L280 40" fill="none" stroke="%234CAF50" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10" cy="140" r="4" fill="%234CAF50"/><circle cx="40" cy="100" r="4" fill="%234CAF50"/><circle cx="70" cy="120" r="4" fill="%234CAF50"/><circle cx="100" cy="80" r="4" fill="%234CAF50"/><circle cx="130" cy="110" r="4" fill="%234CAF50"/><circle cx="160" cy="70" r="4" fill="%234CAF50"/><circle cx="190" cy="90" r="4" fill="%234CAF50"/><circle cx="220" cy="50" r="4" fill="%234CAF50"/><circle cx="250" cy="80" r="4" fill="%234CAF50"/><circle cx="280" cy="40" r="4" fill="%234CAF50"/></svg>');
+            background-repeat: no-repeat;
+            background-size: 80% auto;
+            background-position: center;
+        }
+
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+
+            .profile-container {
+                padding: 20px;
+                gap: 20px;
+            }
+
+            .user-avatar {
+                width: 100px;
+                height: 100px;
+            }
+
+            .user-name {
+                font-size: 1.8em;
+            }
+
+            .user-bio {
+                font-size: 1em;
+                margin-bottom: 15px;
+            }
+
+            h2 {
+                font-size: 1.5em;
+                margin-bottom: 15px;
+            }
+
+            .tab-button {
+                padding: 12px 18px;
+                font-size: 1em;
+                margin: 0 2px 10px 2px; /* Adjust margin for wrapping */
+            }
+
+            .items-grid {
+                grid-template-columns: 1fr; /* Stack items on small screens */
+                gap: 15px;
+            }
+
+            .item-card {
+                padding: 15px;
+            }
+
+            .item-card h3 {
+                font-size: 1.1em;
+            }
+
+            .graph-placeholder {
+                height: 250px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .profile-container {
+                padding: 15px;
+            }
+
+            .user-name {
+                font-size: 1.5em;
+            }
+
+            .tab-button {
+                font-size: 0.9em;
+                padding: 10px 15px;
+            }
+
+            .edit-profile-form {
+                padding: 15px;
+            }
+
+            .form-actions {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .form-actions button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="profile-container">
+
+        <div class="user-info-section">
+            <img src="https://via.placeholder.com/120/4CAF50/FFFFFF?text=JP" alt="User Profile Picture" class="user-avatar" id="profileAvatar">
+            <h1 class="user-name" id="profileName">Jane Patterson</h1>
+            <p class="user-bio" id="profileBio">
+                Passionate software developer and avid learner. I love tackling complex problems and sharing knowledge with others. Specializing in Python and web technologies.
+            </p>
+            <button onclick="toggleEditProfile()"><i class="fas fa-edit"></i> Edit Profile</button>
+
+            <form class="edit-profile-form" id="editProfileForm">
+                <h2>Edit Your Information</h2>
+                <label for="editName">Name:</label>
+                <input type="text" id="editName" value="Jane Patterson">
+
+                <label for="editBio">Bio:</label>
+                <textarea id="editBio" rows="4">Passionate software developer and avid learner. I love tackling complex problems and sharing knowledge with others. Specializing in Python and web technologies.</textarea>
+
+                <label for="editAvatarUrl">Avatar URL (e.g., placeholder.com link):</label>
+                <input type="text" id="editAvatarUrl" value="https://via.placeholder.com/120/4CAF50/FFFFFF?text=JP">
+
+                <div class="form-actions">
+                    <button type="button" class="cancel" onclick="toggleEditProfile()"><i class="fas fa-times-circle"></i> Cancel</button>
+                    <button type="button" onclick="saveProfile()"><i class="fas fa-save"></i> Save Changes</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="profile-tabs">
+            <button class="tab-button active" data-tab="awards"><i class="fas fa-trophy"></i> Awards</button>
+            <button class="tab-button" data-tab="unfinished-projects"><i class="fas fa-spinner"></i> Unfinished Projects</button>
+            <button class="tab-button" data-tab="finished-projects"><i class="fas fa-check-circle"></i> Finished Projects</button>
+            <button class="tab-button" data-tab="activity-graph"><i class="fas fa-chart-line"></i> Activity Graph</button>
+        </div>
+
+        <div id="awards" class="tab-content active">
+            <h2><i class="fas fa-trophy"></i> Your Awards</h2>
+            <div class="items-grid">
+                <div class="item-card">
+                    <h3><i class="fas fa-award icon"></i> Top Contributor (2024)</h3>
+                    <p>Recognized for outstanding contributions to the Python development community on Guidance Connect.</p>
+                </div>
+                <div class="item-card">
+                    <h3><i class="fas fa-star icon"></i> Peer Mentor Excellence</h3>
+                    <p>Awarded for exceptional guidance and support to mentees in web development.</p>
+                </div>
+                <div class="item-card">
+                    <h3><i class="fas fa-ribbon icon"></i> Code Challenge Winner</h3>
+                    <p>Achieved first place in the monthly JavaScript Algorithm Challenge.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="unfinished-projects" class="tab-content">
+            <h2><i class="fas fa-spinner"></i> Unfinished Projects</h2>
+            <div class="items-grid">
+                <div class="item-card">
+                    <h3><i class="fas fa-code icon"></i> AI Chatbot Prototype</h3>
+                    <p>Developing a conversational AI agent for automated customer support using natural language processing.</p>
+                </div>
+                <div class="item-card">
+                    <h3><i class="fas fa-rocket icon"></i> Gamified Learning Platform</h3>
+                    <p>Building a web platform to make learning new programming languages fun and interactive.</p>
+                </div>
+                <div class="item-card">
+                    <h3><i class="fas fa-cloud icon"></i> Serverless API Migration</h3>
+                    <p>Migrating existing REST APIs to a serverless architecture on AWS Lambda for scalability.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="finished-projects" class="tab-content">
+            <h2><i class="fas fa-check-circle"></i> Finished Projects</h2>
+            <div class="items-grid">
+                <div class="item-card">
+                    <h3><i class="fas fa-globe icon"></i> Portfolio Website V2</h3>
+                    <p>Designed and developed a responsive personal portfolio site showcasing my latest projects and skills.</p>
+                </div>
+                <div class="item-card">
+                    <h3><i class="fas fa-database icon"></i> SQL Database Optimization</h3>
+                    <p>Optimized database queries and schema for a large e-commerce application, improving performance by 30%.</p>
+                </div>
+                <div class="item-card">
+                    <h3><i class="fas fa-mobile-alt icon"></i> Mobile Expense Tracker App</h3>
+                    <p>A cross-platform mobile application built with React Native for personal finance management.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="activity-graph" class="tab-content">
+            <h2><i class="fas fa-chart-line"></i> Your Activity on Guidance Connect</h2>
+            <div class="graph-placeholder">
+                <p>Placeholder for your dynamic activity graph showing interactions over time.</p>
+            </div>
+            <p style="text-align: center; margin-top: 15px; color: var(--light-text);">
+                This section would typically display charts (e.g., using Chart.js or D3.js) of your login frequency, messages sent, expert sessions, and more.
+            </p>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            // --- Tab Switching Logic ---
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Remove 'active' class from all buttons and content
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+
+                    // Add 'active' class to the clicked button and its corresponding content
+                    button.classList.add('active');
+                    const targetTabId = button.dataset.tab;
+                    document.getElementById(targetTabId).classList.add('active');
+                });
+            });
+
+            // --- Edit Profile Form Logic ---
+            const profileName = document.getElementById('profileName');
+            const profileBio = document.getElementById('profileBio');
+            const profileAvatar = document.getElementById('profileAvatar');
+            const editName = document.getElementById('editName');
+            const editBio = document.getElementById('editBio');
+            const editAvatarUrl = document.getElementById('editAvatarUrl');
+            const editProfileForm = document.getElementById('editProfileForm');
+
+            window.toggleEditProfile = () => {
+                // Toggle display of the form
+                const isFormVisible = editProfileForm.style.display === 'block';
+                editProfileForm.style.display = isFormVisible ? 'none' : 'block';
+
+                // Pre-fill form with current profile data when opening
+                if (!isFormVisible) {
+                    editName.value = profileName.textContent;
+                    editBio.value = profileBio.textContent;
+                    editAvatarUrl.value = profileAvatar.src;
+                }
+            };
+
+            window.saveProfile = () => {
+                // Update displayed profile details
+                profileName.textContent = editName.value;
+                profileBio.textContent = editBio.value;
+                profileAvatar.src = editAvatarUrl.value;
+
+                alert('Profile saved! (In a real application, this data would be sent to a server.)');
+                toggleEditProfile(); // Hide the form after saving
+            };
+        });
+    </script>
+</body>
+</html>

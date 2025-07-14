@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlueMart - Your Online Store</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* CSS Starts Here */
+        @import url('https://fonts.googleapis.com/css2?family=Amazon+Ember:wght@400;700&display=swap');
+        /* Note: 'Amazon Ember' is a proprietary font. Using a fallback or a similar Google Font like 'Roboto' or 'Open Sans' is common practice if you don't have the font files. For this demo, we'll just declare it. */
+
+        :root {
+            --amazon-yellow: #FF9900;
+            --amazon-dark-blue: #131A22; /* Darker blue for background */
+            --amazon-light-blue: #232F3E; /* Lighter blue for header/footer */
+            --text-color-light: #F8F8F8;
+            --text-color-dark: #111;
+            --link-color: #007185;
+            --border-color: #DDD;
+            --rating-star-color: #F8E825;
+            --blue-background: #0D47A1; /* A strong, deep blue */
+            --soft-blue: #BBDEFB; /* For accents if needed */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Amazon Ember', 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: var(--blue-background); /* The distinct blue background */
+            color: var(--text-color-light);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--link-color);
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* --- Header Section --- */
+        .header {
+            background-color: var(--amazon-light-blue);
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .header-logo {
+            font-size: 2em;
+            font-weight: 700;
+            color: var(--amazon-yellow);
+            margin-right: 20px;
+            white-space: nowrap; /* Prevent logo from wrapping */
+        }
+
+        .header-location, .header-account, .header-orders, .header-cart {
+            display: flex;
+            align-items: center;
+            color: var(--text-color-light);
+            padding: 5px 10px;
+            border: 1px solid transparent;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: border-color 0.2s ease;
+        }
+
+        .header-location:hover, .header-account:hover, .header-orders:hover, .header-cart:hover, .header-search button:hover {
+            border-color: var(--text-color-light);
+        }
+
+        .header-location i {
+            margin-right: 5px;
+        }
+
+        .header-location span {
+            font-size: 0.8em;
+        }
+
+        .header-location .main-address {
+            font-weight: 700;
+        }
+
+        .header-search {
+            flex-grow: 1;
+            display: flex;
+            max-width: 600px;
+        }
+
+        .header-search select {
+            padding: 10px;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            background-color: #E6E6E6;
+            color: var(--text-color-dark);
+            min-width: 80px;
+        }
+
+        .header-search input {
+            flex-grow: 1;
+            padding: 10px;
+            border: none;
+            outline: none;
+            font-size: 1em;
+            color: var(--text-color-dark);
+        }
+
+        .header-search button {
+            background-color: var(--amazon-yellow);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            color: var(--text-color-dark);
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-nav-item {
+            color: var(--text-color-light);
+            padding: 5px 10px;
+            border: 1px solid transparent;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: border-color 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .header-nav-item small {
+            font-size: 0.7em;
+            display: block;
+        }
+
+        .header-nav-item strong {
+            font-size: 0.9em;
+        }
+
+        .header-cart {
+            display: flex;
+            align-items: flex-end;
+            position: relative;
+        }
+
+        .header-cart i {
+            font-size: 2em;
+            margin-right: 5px;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: 5px;
+            left: 20px;
+            background-color: var(--amazon-yellow);
+            color: var(--text-color-dark);
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 0.8em;
+            font-weight: 700;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        /* --- Nav Sub-bar --- */
+        .nav-sub-bar {
+            background-color: var(--amazon-light-blue);
+            padding: 8px 20px;
+            display: flex;
+            gap: 15px;
+            overflow-x: auto; /* For small screens */
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* Firefox */
+        }
+        .nav-sub-bar::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Edge */
+        }
+
+        .nav-sub-bar a {
+            color: var(--text-color-light);
+            white-space: nowrap;
+            font-size: 0.9em;
+            padding: 5px 0;
+            border: 1px solid transparent;
+            border-radius: 3px;
+        }
+
+        .nav-sub-bar a:hover {
+            border-color: var(--text-color-light);
+            text-decoration: none;
+        }
+
+        /* --- Main Content --- */
+        .main-content {
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 4fr; /* Sidebar and main product area */
+            gap: 20px;
+        }
+
+        .sidebar {
+            background-color: rgba(255, 255, 255, 0.05); /* Slightly transparent white for content over blue */
+            padding: 20px;
+            border-radius: 8px;
+            color: var(--text-color-light);
+        }
+
+        .sidebar h3 {
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            color: var(--amazon-yellow);
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar ul li a {
+            color: var(--text-color-light);
+            font-size: 0.95em;
+            transition: color 0.2s ease;
+        }
+
+        .sidebar ul li a:hover {
+            color: var(--amazon-yellow);
+            text-decoration: underline;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            color: var(--text-color-dark);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-card img {
+            max-width: 100%;
+            height: 200px; /* Fixed height for consistent look */
+            object-fit: contain; /* Ensures entire image is visible */
+            margin-bottom: 15px;
+        }
+
+        .product-card h4 {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            height: 3.2em; /* Limit title to 2 lines */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .product-card .price {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: var(--text-color-dark);
+            margin-bottom: 10px;
+        }
+
+        .product-card .rating {
+            color: var(--rating-star-color);
+            margin-bottom: 10px;
+        }
+
+        .product-card .rating span {
+            color: var(--text-color-dark);
+            font-size: 0.8em;
+            margin-left: 5px;
+        }
+
+        .product-card button {
+            background-color: var(--amazon-yellow);
+            color: var(--text-color-dark);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.2s ease;
+        }
+
+        .product-card button:hover {
+            background-color: #F0C14B; /* A slightly darker yellow */
+        }
+
+        /* --- Footer Section --- */
+        .footer {
+            background-color: var(--amazon-light-blue);
+            color: var(--text-color-light);
+            padding: 30px 20px;
+            text-align: center;
+            font-size: 0.9em;
+            margin-top: 40px;
+        }
+
+        .footer-links {
+            margin-bottom: 20px;
+        }
+
+        .footer-links a {
+            color: var(--text-color-light);
+            margin: 0 10px;
+            white-space: nowrap;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 1024px) {
+            .header {
+                justify-content: center;
+                text-align: center;
+            }
+            .header-search {
+                width: 100%;
+                order: 1; /* Puts search bar below logo on smaller screens */
+                margin: 10px 0;
+            }
+            .header-logo {
+                margin-right: 0;
+            }
+            .header-nav-item, .header-location, .header-account, .header-orders, .header-cart {
+                padding: 5px;
+                font-size: 0.9em;
+            }
+            .header-cart i {
+                font-size: 1.8em;
+            }
+            .cart-count {
+                top: 2px;
+                left: 18px;
+                font-size: 0.7em;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr; /* Stack sidebar and product grid */
+                padding: 15px;
+            }
+            .sidebar {
+                margin-bottom: 20px;
+            }
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* Smaller cards */
+            }
+            .header-nav-item, .header-location, .header-account, .header-orders {
+                display: none; /* Hide some items to save space */
+            }
+            .nav-sub-bar {
+                padding: 8px 15px;
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 8px 10px;
+            }
+            .header-logo {
+                font-size: 1.8em;
+            }
+            .header-search select {
+                min-width: 60px;
+            }
+            .header-search input {
+                padding: 8px;
+            }
+            .header-search button {
+                padding: 8px 10px;
+                font-size: 1em;
+            }
+            .product-card {
+                padding: 10px;
+            }
+            .product-card img {
+                height: 150px;
+            }
+            .product-card h4 {
+                font-size: 1em;
+            }
+            .product-card .price {
+                font-size: 1.2em;
+            }
+        }
+        /* CSS Ends Here */
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-logo">BlueMart</div>
+
+        <div class="header-location">
+            <i class="fas fa-map-marker-alt"></i>
+            <div>
+                <small>Deliver to</small>
+                <strong class="main-address">Oko Erin, Nigeria</strong>
+            </div>
+        </div>
+
+        <div class="header-search">
+            <select>
+                <option value="all">All</option>
+                <option value="electronics">Electronics</option>
+                <option value="books">Books</option>
+                <option value="clothing">Clothing</option>
+                <option value="home">Home & Kitchen</option>
+            </select>
+            <input type="text" placeholder="Search BlueMart">
+            <button><i class="fas fa-search"></i></button>
+        </div>
+
+        <div class="header-nav-item">
+            <small>Hello, sign in</small>
+            <strong>Accounts & Lists <i class="fas fa-caret-down"></i></strong>
+        </div>
+
+        <div class="header-nav-item">
+            <small>Returns</small>
+            <strong>& Orders</strong>
+        </div>
+
+        <div class="header-cart">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count">0</span>
+            <strong>Cart</strong>
+        </div>
+    </header>
+
+    <nav class="nav-sub-bar">
+        <a href="#"><i class="fas fa-bars"></i> All</a>
+        <a href="#">Today's Deals</a>
+        <a href="#">Customer Service</a>
+        <a href="#">Registry</a>
+        <a href="#">Gift Cards</a>
+        <a href="#">Sell</a>
+        <a href="#">Fashion</a>
+        <a href="#">Electronics</a>
+        <a href="#">Books</a>
+        <a href="#">Home</a>
+    </nav>
+
+    <main class="main-content">
+        <aside class="sidebar">
+            <h3>Shop by Category</h3>
+            <ul>
+                <li><a href="#">Electronics</a></li>
+                <li><a href="#">Books</a></li>
+                <li><a href="#">Home & Kitchen</a></li>
+                <li><a href="#">Fashion</a></li>
+                <li><a href="#">Sports & Outdoors</a></li>
+                <li><a href="#">Health & Household</a></li>
+                <li><a href="#">Toys & Games</a></li>
+                <li><a href="#">Automotive</a></li>
+                <li><a href="#">Computers</a></li>
+                <li><a href="#">Pet Supplies</a></li>
+            </ul>
+        </aside>
+
+        <section class="product-grid">
+            <div class="product-card">
+                <img src="https://via.placeholder.com/250x200/ADD8E6/000000?text=Product+1" alt="Product Name">
+                <h4>Amazing Wireless Headphones with Noise Cancellation and Long Battery Life</h4>
+                <div class="rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                    <span>(4,567)</span>
+                </div>
+                <div class="price">₦ 55,999</div>
+                <button>Add to Cart</button>
+            </div>
+
+            <div class="product-card">
+                <img src="https://via.placeholder.com/250x200/ADD8E6/000000?text=Product+2" alt="Product Name">
+                <h4>Smartwatch with Heart Rate Monitor and GPS Tracking</h4>
+                <div class="rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <span>(1,234)</span>
+                </div>
+                <div class="price">₦ 32,500</div>
+                <button>Add to Cart</button>
+            </div>
+
+            <div class="product-card">
+                <img src="https://via.placeholder.com/250x200/ADD8E6/000000?text=Product+3" alt="Product Name">
+                <h4>Organic Coffee Beans - Ethiopian Yirgacheffe, 1kg</h4>
+                <div class="rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <span>(8,910)</span>
+                </div>
+                <div class="price">₦ 9,800</div>
+                <button>Add to Cart</button>
+            </div>
+
+            <div class="product-card">
+                <img src="https://via.placeholder.com/250x200/ADD8E6/000000?text=Product+4" alt="Product Name">
+                <h4>Portable Bluetooth Speaker with Deep Bass and Waterproof Design</h4>
+                <div class="rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                    <i class="far fa-star"></i>
+                    <span>(789)</span>
+                </div>
+                <div class="price">₦ 18,200</div>
+                <button>Add to Cart</button>
+            </div>
+
+            <div class="product-card">
+                <img src="https://via.placeholder.com/250x200/ADD8E6/000000?text=Product+5" alt="Product Name">
+                <h4>Ergonomic Office Chair - Adjustable Lumbar Support</h4>
+                <div class="rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <span>(3,456)</span>
+                </div>
+                <div class="price">₦ 75,000</div>
+                <button>Add to Cart</button>
+            </div>
+
+            <div class="product-card">
+                <img src="https://via.placeholder.com/250x200/ADD8E6/000000?text=Product+6" alt="Product Name">
+                <h4>Beginner's Guide to Python Programming (Hardcover)</h4>
+                <div class="rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <span>(5,123)</span>
+                </div>
+                <div class="price">₦ 12,000</div>
+                <button>Add to Cart</button>
+            </div>
+
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="#">Conditions of Use</a> |
+            <a href="#">Privacy Notice</a> |
+            <a href="#">Your Ads Privacy Choices</a>
+        </div>
+        <div>
+            &copy; 2025 BlueMart. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript Starts Here
+        document.addEventListener('DOMContentLoaded', () => {
+            // Basic example: updating cart count (would be dynamic in a real app)
+            const addToCartButtons = document.querySelectorAll('.product-card button');
+            const cartCountSpan = document.querySelector('.cart-count');
+            let cartCount = 0;
+
+            addToCartButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    cartCount++;
+                    cartCountSpan.textContent = cartCount;
+                    alert('Item added to cart!'); // For demo purposes
+                });
+            });
+
+            // For the "Deliver to Oko Erin, Nigeria" part, which is already static in HTML,
+            // you could dynamically update it based on user's IP or chosen location
+            // using a geo-location API in a real application.
+            // Example (no actual API call here):
+            const mainAddress = document.querySelector('.main-address');
+            // mainAddress.textContent = "New Location, Nigeria"; // To demonstrate changing it
+        });
+        // JavaScript Ends Here
+    </script>
+</body>
+</html>
